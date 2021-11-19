@@ -75,8 +75,11 @@ paths:
     get:
       tags:
         - File Operations
-      summary: List files/objects in a storage system.
-      description: List files in a storage system
+      summary: List files/objects on a Tapis system.
+      description:  |
+
+        List files/objects on a Tapis system. Type for items will depend on Tapis system type. For example for LINUX
+        they will be posix files and for S3 they will be storage objects.
       operationId: listFiles
       parameters:
         - name: systemId
@@ -337,7 +340,7 @@ paths:
       tags:
         - File Operations
       summary: Create a directory
-      description: Create a directory in the system at path the given path
+      description: Create a directory on the system at the given path
       operationId: mkdir
       parameters:
         - name: systemId
@@ -408,8 +411,7 @@ paths:
           example: /folderA/file1
         - name: followLinks
           in: query
-          description: When path is a symbolic link whether to get information about
-            the link (false) or the link target (true)
+          description: When path is a symbolic link whether to get information about the link (false) or the link target (true)
           schema:
             type: boolean
             default: false
@@ -526,7 +528,7 @@ paths:
     get:
       tags:
         - Content
-      summary: Retrieve a file from the files service
+      summary: Retrieve contents of a file or directory
       description: Get file contents/serve file
       operationId: getContents
       parameters:
@@ -559,8 +561,7 @@ paths:
           example: false
         - name: more
           in: header
-          description: Send 1k of UTF-8 encoded string back starting at 'page' 1, ex
-            more=1
+          description: Send 1k of UTF-8 encoded string back starting at 'page' 1, e.g. more=1
           schema:
             type: integer
             format: int64
@@ -696,8 +697,8 @@ paths:
     get:
       tags:
         - permissions
-      summary: Get the API user's permission on a file or folder.
-      description: Get the permission for the API user for the system and path.
+      summary: Get the API user's Tapis permissions on a file or folder.
+      description: Get the Tapis permission for the API user for the system and path.
       operationId: getPermissions
       parameters:
         - name: systemId
@@ -727,9 +728,8 @@ paths:
     post:
       tags:
         - permissions
-      summary: 'Grant user permission on a file or folder. '
-      description: Grant access to a file or folder for a user. Access may be READ
-        or MODIFY. MODIFY implies READ.
+      summary: Grant user a Tapis permission on a file or folder.
+      description: Grant access to a file or folder for a user. Access may be READ or MODIFY. MODIFY implies READ.
       operationId: grantPermissions
       parameters:
         - name: systemId
@@ -760,7 +760,7 @@ paths:
     delete:
       tags:
         - permissions
-      summary: 'Revoke user permission on a file or folder. '
+      summary: Revoke user's Tapis permission on a file or folder.
       description: Revoke access to a file or folder for a user.
       operationId: deletePermissions
       parameters:
