@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Tapis Files API
   description: The Tapis Files API provides for management of event publication and subscription
-  version: '1.0.0'
+  version: '1.0.1'
   termsOfService: "https://tapis-project.org"
   contact:
     name: "Files API - CICSupport"
@@ -76,10 +76,10 @@ paths:
       tags:
         - File Operations
       summary: List files/objects on a Tapis system.
-      description:  |
-
+      description: |
         List files/objects on a Tapis system. Type for items will depend on Tapis system type. For example for LINUX
-        they will be posix files and for S3 they will be storage objects.
+        they will be posix files and for S3 they will be storage objects. For S3 the recurse flag is ignored and all
+        objects with keys matching the path as a prefix are included.
       operationId: listFiles
       parameters:
         - name: systemId
@@ -91,11 +91,11 @@ paths:
           example: system123
         - name: path
           in: path
-          description: path relative to root of bucket/folder
+          description: path relative to system rootDir of bucket/directory
           required: true
           schema:
             type: string
-          example: /folderA/folderB/
+          example: /directoryA/directoryB/
         - name: limit
           in: query
           description: pagination limit
@@ -159,8 +159,8 @@ paths:
     put:
       tags:
         - File Operations
-      summary: Move/copy a file or folder
-      description: Move/copy a file in {systemID} at path {path}.
+      summary: Move/copy a file, directory or object.
+      description: Move/copy a file, directory or object on {systemID} at path {path}.
       operationId: moveCopy
       parameters:
         - name: systemId
@@ -221,8 +221,7 @@ paths:
       tags:
         - File Operations
       summary: Upload a file
-      description: The file will be added at the {path} independent of the original
-        file name
+      description: The file will be added at the {path} independent of the original file name
       operationId: insert
       parameters:
         - name: systemId
@@ -282,8 +281,12 @@ paths:
     delete:
       tags:
         - File Operations
-      summary: Delete a file or folder
-      description: Delete a file in {systemID} at path {path}.
+      summary: Delete a file or directory on a LINUX system or an object (or all objects) on an S3 system.
+      description: |
+        Delete a file, directory or object on {systemID} at path {path}. On a LINUX system the path will represent
+        a file or directory and on an S3 system the path will represent either a single object or all objects under the
+        system *rootDir* if the path is /. **WARNING** For an S3 system if the path is / then all objects in the
+        bucket with a key matching the prefix *rootDir* will be deleted.
       operationId: delete
       parameters:
         - name: systemId
@@ -340,7 +343,7 @@ paths:
       tags:
         - File Operations
       summary: Create a directory
-      description: Create a directory on the system at the given path
+      description: Create a directory on the system at the given path. Not supported for all system types.
       operationId: mkdir
       parameters:
         - name: systemId
@@ -408,7 +411,7 @@ paths:
           required: true
           schema:
             type: string
-          example: /folderA/file1
+          example: /directoryA/file1
         - name: followLinks
           in: query
           description: When path is a symbolic link whether to get information about the link (false) or the link target (true)
@@ -545,7 +548,7 @@ paths:
           required: true
           schema:
             type: string
-          example: /folderA/folderB/
+          example: /directoryA/directoryB/
         - name: range
           in: header
           description: Optional range of bytes to send. If not specified all content
@@ -555,7 +558,7 @@ paths:
           example: range=0,999
         - name: zip
           in: query
-          description: Zip the contents of file or folder?
+          description: Zip the contents of file or directory?
           schema:
             type: boolean
           example: false
@@ -697,7 +700,7 @@ paths:
     get:
       tags:
         - permissions
-      summary: Get the API user's Tapis permissions on a file or folder.
+      summary: Get the API user's Tapis permissions on a file or directory.
       description: Get the Tapis permission for the API user for the system and path.
       operationId: getPermissions
       parameters:
@@ -728,8 +731,8 @@ paths:
     post:
       tags:
         - permissions
-      summary: Grant user a Tapis permission on a file or folder.
-      description: Grant access to a file or folder for a user. Access may be READ or MODIFY. MODIFY implies READ.
+      summary: Grant user a Tapis permission on a file or directory.
+      description: Grant access to a file or directory for a user. Access may be READ or MODIFY. MODIFY implies READ.
       operationId: grantPermissions
       parameters:
         - name: systemId
@@ -760,8 +763,8 @@ paths:
     delete:
       tags:
         - permissions
-      summary: Revoke user's Tapis permission on a file or folder.
-      description: Revoke access to a file or folder for a user.
+      summary: Revoke user's Tapis permission on a file or directory.
+      description: Revoke access to a file or directory for a user.
       operationId: deletePermissions
       parameters:
         - name: systemId
@@ -952,7 +955,7 @@ components:
       properties:
         creator:
           type: string
-          description: Username who shared the file/folder
+          description: Username who shared the file/directory
         sharedWith:
           type: string
           description: Username who was granted access
