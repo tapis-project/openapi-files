@@ -28,6 +28,8 @@ tags:
     description: General service health and readiness
   - name: File Operations
     description: Manage file resources on Tapis systems. List, upload, copy, native operations, etc.
+  - name: Content
+    description: Download a file or directory.
   - name: Transfers
     description: Manage file transfers. Initiate, cancel and retrieve status.
   - name: Permissions
@@ -584,7 +586,7 @@ paths:
   /v3/files/transfers:
     get:
       tags:
-        - transfers
+        - Transfers
       summary: Get a list of recent transfer tasks starting with the most recent
       description: Get a list of recent transfer tasks starting with the most recent
       operationId: getRecentTransferTasks
@@ -614,7 +616,7 @@ paths:
                 $ref: '#/components/schemas/TransferTaskListResponse'
     post:
       tags:
-        - transfers
+        - Transfers
       summary: Transfer data
       description: This creates a background task which will transfer files into the
         storage system
@@ -635,7 +637,7 @@ paths:
   /v3/files/transfers/{transferTaskId}:
     get:
       tags:
-        - transfers
+        - Transfers
       summary: Get a transfer task
       operationId: getTransferTask
       parameters:
@@ -655,7 +657,7 @@ paths:
                 $ref: '#/components/schemas/TransferTaskResponse'
     delete:
       tags:
-        - transfers
+        - Transfers
       summary: Stop/Cancel a transfer task
       operationId: cancelTransferTask
       parameters:
@@ -676,7 +678,7 @@ paths:
   /v3/files/transfers/{transferTaskId}/details:
     get:
       tags:
-        - transfers
+        - Transfers
       summary: Get details of a transfer task
       operationId: getTransferTaskDetails
       parameters:
@@ -699,7 +701,7 @@ paths:
   /v3/files/permissions/{systemId}/{path}:
     get:
       tags:
-        - permissions
+        - Permissions
       summary: Get the API user's Tapis permissions on a file or directory.
       description: Get the Tapis permission for the API user for the system and path.
       operationId: getPermissions
@@ -730,7 +732,7 @@ paths:
                 $ref: '#/components/schemas/FilePermissionResponse'
     post:
       tags:
-        - permissions
+        - Permissions
       summary: Grant user a Tapis permission on a file or directory.
       description: Grant access to a file or directory for a user. Access may be READ or MODIFY. MODIFY implies READ.
       operationId: grantPermissions
@@ -762,7 +764,7 @@ paths:
                 $ref: '#/components/schemas/FilePermissionResponse'
     delete:
       tags:
-        - permissions
+        - Permissions
       summary: Revoke user's Tapis permission on a file or directory.
       description: Revoke access to a file or directory for a user.
       operationId: deletePermissions
@@ -894,10 +896,7 @@ components:
         path:
           type: string
         permission:
-          type: string
-          enum:
-            - READ
-            - MODIFY
+          $ref: '#/components/schemas/PermEnum'
     FilePermissionResponse:
       type: object
       properties:
@@ -933,10 +932,7 @@ components:
         username:
           type: string
         permission:
-          type: string
-          enum:
-            - READ
-            - MODIFY
+          $ref: '#/components/schemas/PermEnum'
     StringResponse:
       type: object
       properties:
@@ -1001,16 +997,7 @@ components:
           type: string
           format: uuid
         status:
-          type: string
-          enum:
-            - ACCEPTED
-            - STAGING
-            - STAGED
-            - IN_PROGRESS
-            - COMPLETED
-            - CANCELLED
-            - FAILED
-            - PAUSED
+          $ref: '#/components/schemas/TransferStatusEnum'
         parentTasks:
           type: array
           items:
@@ -1076,19 +1063,7 @@ components:
           description: Unique ID of the task.
           format: uuid
         status:
-          type: string
-          description: The status of the task, such as ACCEPTED, IN_PROGRESS, COMPLETED,
-            CANCELLED
-          example: PENDING
-          enum:
-            - ACCEPTED
-            - STAGING
-            - STAGED
-            - IN_PROGRESS
-            - COMPLETED
-            - CANCELLED
-            - FAILED
-            - PAUSED
+          $ref: '#/components/schemas/TransferStatusEnum'
         created:
           type: string
           format: date-time
@@ -1147,19 +1122,7 @@ components:
           description: Unique ID of the task.
           format: uuid
         status:
-          type: string
-          description: The status of the task, such as ACCEPTED, IN_PROGRESS, COMPLETED,
-            CANCELLED
-          example: PENDING
-          enum:
-            - ACCEPTED
-            - STAGING
-            - STAGED
-            - IN_PROGRESS
-            - COMPLETED
-            - CANCELLED
-            - FAILED
-            - PAUSED
+          $ref: '#/components/schemas/TransferStatusEnum'
         created:
           type: string
           format: date-time
@@ -1302,3 +1265,24 @@ components:
           type: object
         metadata:
           type: object
+    # -------------------------------------------------------------------------
+    # --- Enums ---------------------------------------------------------------
+    # -------------------------------------------------------------------------
+    TransferStatusEnum:
+      type: string
+      description: The status of the task, such as ACCEPTED, IN_PROGRESS, COMPLETED, CANCELLED
+      example: PENDING
+      enum:
+        - ACCEPTED
+        - STAGED
+        - IN_PROGRESS
+        - COMPLETED
+        - CANCELLED
+        - FAILED
+        - FAILED_OPT
+        - PAUSED
+    PermEnum:
+      type: string
+      enum:
+        - READ
+        - MODIFY
