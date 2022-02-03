@@ -45,7 +45,7 @@ paths:
     get:
       tags:
         - General
-      description: Health check.
+      description: Health check
       operationId: healthCheck
       responses:
         '200':
@@ -60,7 +60,7 @@ paths:
     get:
       tags:
         - General
-      description: Ready check.
+      description: Ready check
       operationId: readyCheck
       responses:
         '200':
@@ -77,9 +77,9 @@ paths:
     get:
       tags:
         - File Operations
-      summary: List files/objects on a Tapis system.
+      summary: List paths on a system
       description: |
-        List files/objects on a Tapis system. Type for items will depend on Tapis system type. For example for LINUX
+        List files or objects on a Tapis system. Type for items will depend on system type. For example for LINUX
         they will be posix files and for S3 they will be storage objects. For S3 the recurse flag is ignored and all
         objects with keys matching the path as a prefix are included.
       operationId: listFiles
@@ -161,8 +161,10 @@ paths:
     put:
       tags:
         - File Operations
-      summary: Move/copy a file, directory or object.
-      description: Move/copy a file, directory or object on {systemID} at path {path}.
+      summary: Move or copy a path on a system
+      description: |
+        Move or copy a file, directory or object on {systemID} at path {path}. Not all operations supported for all
+        system types.
       operationId: moveCopy
       parameters:
         - name: systemId
@@ -222,8 +224,10 @@ paths:
     post:
       tags:
         - File Operations
-      summary: Upload a file
-      description: The file will be added at the {path} independent of the original file name
+      summary: Upload a path to a system
+      description: |
+        The file or object will be added at the {path} independent of the original name.
+        Not supported for all system types.
       operationId: insert
       parameters:
         - name: systemId
@@ -283,12 +287,14 @@ paths:
     delete:
       tags:
         - File Operations
-      summary: Delete a file or directory on a LINUX system or an object (or all objects) on an S3 system.
+      summary: Delete a path
       description: |
-        Delete a file, directory or object on {systemID} at path {path}. On a LINUX system the path will represent
-        a file or directory and on an S3 system the path will represent either a single object or all objects under the
-        system *rootDir* if the path is /. **WARNING** For an S3 system if the path is / then all objects in the
-        bucket with a key matching the prefix *rootDir* will be deleted.
+        Delete a file, directory or object on {systemID} at path {path}.
+        For a LINUX directory this will be a recursive delete.
+        For an S3 system the path will represent either a single object or all objects under the system *rootDir* if
+        the path is /.
+        **WARNING** For an S3 system if the path is / then all objects in the bucket with a key matching the prefix
+        *rootDir* will be deleted.
       operationId: delete
       parameters:
         - name: systemId
@@ -345,7 +351,8 @@ paths:
       tags:
         - File Operations
       summary: Create a directory
-      description: Create a directory on the system at the given path. Not supported for all system types.
+      description: |
+        Create a directory on the system at the given path. Not supported for all system types.
       operationId: mkdir
       parameters:
         - name: systemId
@@ -396,8 +403,9 @@ paths:
     get:
       tags:
         - File Operations
-      summary: Get stat information for a file or directory.
-      description: Get stat information for a file or directory.
+      summary: Get native stat information for a path
+      description: |
+        Get stat information for a file or directory for a system of type LINUX.
       operationId: getStatInfo
       parameters:
         - name: systemId
@@ -461,8 +469,9 @@ paths:
     post:
       tags:
         - File Operations
-      summary: Run a native operation
-      description: 'Run a native operation: chmod, chown or chgrp.'
+      summary: Run a native operation on a path
+      description: |
+        Run a native operation on a path. Operations are chmod, chown or chgrp. For a system of type LINUX.
       operationId: runLinuxNativeOp
       parameters:
         - name: systemId
@@ -533,8 +542,9 @@ paths:
     get:
       tags:
         - Content
-      summary: Retrieve contents of a file or directory
-      description: Get file contents/serve file
+      summary: Download a path from a system
+      description: |
+        Get file or directory contents as a stream of data. Not supported for all system types.
       operationId: getContents
       parameters:
         - name: systemId
@@ -587,8 +597,9 @@ paths:
     get:
       tags:
         - Transfers
-      summary: Get a list of recent transfer tasks starting with the most recent
-      description: Get a list of recent transfer tasks starting with the most recent
+      summary: Get transfer tasks
+      description: |
+        Get a list of transfer tasks starting with the most recent.
       operationId: getRecentTransferTasks
       parameters:
         - name: limit
@@ -617,9 +628,9 @@ paths:
     post:
       tags:
         - Transfers
-      summary: Transfer data
-      description: This creates a background task which will transfer files into the
-        storage system
+      summary: Create task to transfer paths between systems
+      description: |
+        Create a background task which will transfer paths between systems.
       operationId: createTransferTask
       requestBody:
         content:
@@ -639,6 +650,8 @@ paths:
       tags:
         - Transfers
       summary: Get a transfer task
+      description: |
+        Retrieve a transfer task.
       operationId: getTransferTask
       parameters:
         - name: transferTaskId
@@ -658,7 +671,9 @@ paths:
     delete:
       tags:
         - Transfers
-      summary: Stop/Cancel a transfer task
+      summary: Cancel a transfer task
+      description: |
+        Request that a transfer task be cancelled.
       operationId: cancelTransferTask
       parameters:
         - name: transferTaskId
@@ -679,7 +694,9 @@ paths:
     get:
       tags:
         - Transfers
-      summary: Get details of a transfer task
+      summary: Get details for a transfer task
+      description: |
+        Retrieve detailed information for a transfer task.
       operationId: getTransferTaskDetails
       parameters:
         - name: transferTaskId
@@ -702,8 +719,10 @@ paths:
     get:
       tags:
         - Permissions
-      summary: Get the API user's Tapis permissions on a file or directory.
-      description: Get the Tapis permission for the API user for the system and path.
+      summary: Retrieve Tapis permissions for a user for the system and path
+      description: |
+        Get the Tapis permissions for a user for the system and path.
+        If no user specified then permissions are retrieved for the user making the request.
       operationId: getPermissions
       parameters:
         - name: systemId
@@ -733,8 +752,9 @@ paths:
     post:
       tags:
         - Permissions
-      summary: Grant user a Tapis permission on a file or directory.
-      description: Grant access to a file or directory for a user. Access may be READ or MODIFY. MODIFY implies READ.
+      summary: Grant Tapis permissions for a user for the system and path
+      description: |
+        Grant access to a path for a user. Access may be READ or MODIFY. MODIFY implies READ.
       operationId: grantPermissions
       parameters:
         - name: systemId
@@ -765,8 +785,9 @@ paths:
     delete:
       tags:
         - Permissions
-      summary: Revoke user's Tapis permission on a file or directory.
-      description: Revoke access to a file or directory for a user.
+      summary: Revoke Tapis permissions for a user for the system and path
+      description: |
+        Revoke access for a user for the system and path. All access is revoked.
       operationId: deletePermissions
       parameters:
         - name: systemId
