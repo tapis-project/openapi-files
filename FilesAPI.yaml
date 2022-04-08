@@ -121,6 +121,12 @@ paths:
             type: boolean
             default: false
           example: false
+        - name: skipTapisAuthorization
+          in: query
+          description: Highly restricted. Only certain services may use Tapis sharing in place of permissions.
+          schema:
+            type: boolean
+            default: false
       responses:
         "200":
           description: A list of files
@@ -580,6 +586,12 @@ paths:
           schema:
             type: integer
             format: int64
+        - name: skipTapisAuthorization
+          in: query
+          description: Highly restricted. Only certain services may use sharing in place of Tapis authorization.
+          schema:
+            type: boolean
+            default: false
       responses:
         "200":
           description: OK
