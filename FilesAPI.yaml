@@ -77,7 +77,6 @@ paths:
     get:
       tags:
         - File Operations
-      summary: List paths on a system
       description: |
         List files or objects on a Tapis system. Type for items will depend on system type. For example for LINUX
         they will be posix files and for S3 they will be storage objects. For S3 the recurse flag is ignored and all
@@ -166,7 +165,6 @@ paths:
     put:
       tags:
         - File Operations
-      summary: Move or copy a path on a system
       description: |
         Move or copy a file, directory or object on {systemID} at path {path}. Not all operations supported for all
         system types.
@@ -229,9 +227,8 @@ paths:
     post:
       tags:
         - File Operations
-      summary: Upload a path to a system
       description: |
-        The file or object will be added at the {path} independent of the original name.
+        The file or object will be uploaded at the {path} independent of the original name.
         Not supported for all system types.
       operationId: insert
       parameters:
@@ -292,7 +289,6 @@ paths:
     delete:
       tags:
         - File Operations
-      summary: Delete a path
       description: |
         Delete a file, directory or object on {systemID} at path {path}.
         For a LINUX directory this will be a recursive delete.
@@ -355,7 +351,6 @@ paths:
     post:
       tags:
         - File Operations
-      summary: Create a directory
       description: |
         Create a directory on the system at the given path. Not supported for all system types.
       operationId: mkdir
@@ -408,9 +403,8 @@ paths:
     get:
       tags:
         - File Operations
-      summary: Get native stat information for a path
       description: |
-        Get stat information for a file or directory for a system of type LINUX.
+        Get native stat information for a file or directory for a system of type LINUX.
       operationId: getStatInfo
       parameters:
         - name: systemId
@@ -474,7 +468,6 @@ paths:
     post:
       tags:
         - File Operations
-      summary: Run a native operation on a path
       description: |
         Run a native operation on a path. Operations are chmod, chown or chgrp. For a system of type LINUX.
       operationId: runLinuxNativeOp
@@ -547,7 +540,6 @@ paths:
     get:
       tags:
         - Content
-      summary: Download a path from a system
       description: |
         Get file or directory contents as a stream of data. Not supported for all system types.
       operationId: getContents
@@ -607,7 +599,6 @@ paths:
     get:
       tags:
         - Transfers
-      summary: Get transfer tasks
       description: |
         Get a list of transfer tasks starting with the most recent.
       operationId: getRecentTransferTasks
@@ -638,7 +629,6 @@ paths:
     post:
       tags:
         - Transfers
-      summary: Create task to transfer paths between systems
       description: |
         Create a background task which will transfer paths between systems.
       operationId: createTransferTask
@@ -659,7 +649,6 @@ paths:
     get:
       tags:
         - Transfers
-      summary: Get a transfer task
       description: |
         Retrieve a transfer task.
       operationId: getTransferTask
@@ -681,7 +670,6 @@ paths:
     delete:
       tags:
         - Transfers
-      summary: Cancel a transfer task
       description: |
         Request that a transfer task be cancelled.
       operationId: cancelTransferTask
@@ -704,7 +692,6 @@ paths:
     get:
       tags:
         - Transfers
-      summary: Get details for a transfer task
       description: |
         Retrieve detailed information for a transfer task.
       operationId: getTransferTaskDetails
@@ -729,7 +716,6 @@ paths:
     get:
       tags:
         - Permissions
-      summary: Retrieve Tapis permissions for a user for the system and path
       description: |
         Get the Tapis permissions for a user for the system and path.
         If no user specified then permissions are retrieved for the user making the request.
@@ -762,7 +748,6 @@ paths:
     post:
       tags:
         - Permissions
-      summary: Grant Tapis permissions for a user for the system and path
       description: |
         Grant access to a path for a user. Access may be READ or MODIFY. MODIFY implies READ.
       operationId: grantPermissions
@@ -795,7 +780,6 @@ paths:
     delete:
       tags:
         - Permissions
-      summary: Revoke Tapis permissions for a user for the system and path
       description: |
         Revoke access for a user for the system and path. All access is revoked.
       operationId: deletePermissions
