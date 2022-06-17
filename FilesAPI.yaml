@@ -1475,10 +1475,10 @@ components:
     ResultShareInfo:
       type: object
       required:
-        - public
+        - isPublic
         - userList
       properties:
-        public:
+        isPublic:
           type: boolean
         userList:
           type: array
