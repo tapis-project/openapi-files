@@ -937,6 +937,8 @@ paths:
       summary: Share a path on a system publicly with all users in the tenant.
       description: |
         Share a path on a system with all users in the tenant. Requester must be owner of the system.
+        The query parameter *shareNoAuthentication* may be set to *true* to share a path without requiring any
+        authentication. Anyone who knows or can guess the URL will be able to access the path.
       operationId: sharePathPublic
       parameters:
         - name: systemId
@@ -949,6 +951,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: shareNoAuthentication
+          in: query
+          description: Share a path with anyone who knows or can guess the URL.
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Path shared publicly.
