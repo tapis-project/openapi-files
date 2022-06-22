@@ -930,7 +930,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/RespBasic'
 
-  '/v3/files/share/{systemId}/{path}/public':
+  '/v3/files/share_public/{systemId}/{path}':
     post:
       tags:
         - Sharing
@@ -1022,7 +1022,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/RespBasic'
 
-  '/v3/files/unshare/{systemId}/{path}/public':
+  '/v3/files/unshare_public/{systemId}/{path}':
     post:
       tags:
         - Sharing
