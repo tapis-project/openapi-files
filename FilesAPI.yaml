@@ -1515,7 +1515,7 @@ components:
           items:
             $ref: '#/components/schemas/UserShareInfo'
     UserShareInfo:
-      type object
+      type: object
       properties:
         username:
           $ref: '#/components/schemas/UserNameString'
