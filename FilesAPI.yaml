@@ -884,7 +884,8 @@ paths:
       summary: Share a path on a system with one or more users.
       description: |
         Create or update sharing information for a path on a system. The path will be shared with the list of users
-        provided in the request body. Requester must be owner of the system.
+        provided in the request body. Requester must be owner of the system. For LINUX systems path sharing is
+        hierarchical.
       operationId: sharePath
       parameters:
         - name: systemId
@@ -1496,16 +1497,31 @@ components:
           type: object
     ResultShareInfo:
       type: object
-      required:
-        - isPublic
-        - userList
       properties:
         isPublic:
           type: boolean
+          description: Indicates given path is shared publicly
+        isPublicPath:
+          type: string
+          description: Path that resulted in specified path being shared publicly
         userList:
           type: array
+          description: List of users with whom the path is shared.
           items:
             $ref: '#/components/schemas/UserNameString'
+        userPaths:
+          type: array
+          description: List of additional share information for each user.
+          items:
+            $ref: '#/components/schemas/UserShareInfo'
+    UserShareInfo:
+      type object
+      properties:
+        username:
+          $ref: '#/components/schemas/UserNameString'
+        path:
+          type: string
+          description: Path that resulted in specified path being shared with the user
     RespTransferTask:
       type: object
       properties:
