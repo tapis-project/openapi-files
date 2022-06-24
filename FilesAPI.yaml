@@ -1504,12 +1504,12 @@ components:
         isPublicPath:
           type: string
           description: Path that resulted in specified path being shared publicly
-        userList:
+        userSet:
           type: array
-          description: List of users with whom the path is shared.
+          description: Set of users with whom the path is shared.
           items:
             $ref: '#/components/schemas/UserNameString'
-        userPaths:
+        userShareInfoSet:
           type: array
           description: List of additional share information for each user.
           items:
