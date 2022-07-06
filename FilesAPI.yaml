@@ -723,6 +723,11 @@ paths:
           schema:
             type: string
           example: 6491c2a5-acb2-40ef-b2c0-bc1fc4cd7e6c
+        - name: impersonationId
+          in: query
+          description: Highly restricted. Only certain services may impersonate a Tapis user.
+          schema:
+            type: string
       responses:
         "200":
           description: OK
