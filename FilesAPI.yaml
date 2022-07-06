@@ -314,7 +314,8 @@ paths:
         matching the system *rootDir* if the path is "/" or the empty string.
  
         **WARNING** For an S3 system if the path is "/" or the empty string then all objects in the bucket with a
-        key matching the prefix *rootDir* will be deleted.
+        key matching the prefix *rootDir* will be deleted. So if the *rootDir* is "/" or the empty string then all
+        objects in the bucket will be removed.
       operationId: delete
       parameters:
         - name: systemId
