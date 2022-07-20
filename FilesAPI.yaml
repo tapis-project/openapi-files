@@ -83,6 +83,20 @@ paths:
         List files or objects on a Tapis system. Type for items will depend on system type. For example for LINUX
         they will be posix files and for S3 they will be storage objects. For S3 the recurse flag is ignored and all
         objects with keys matching the path as a prefix are included.
+        
+        Note that S3 buckets do not have a hierarchical structure. There are no directories. Everything is an object
+        associated with a key.
+        
+        In S3 Tapis support, the difference between a key and an absolute path is the absolute path starts with a "/"
+        and the key does not. So for the final fully resolved key to the object the absolute path is used with the
+        initial "/" stripped off.
+        
+        Tapis does not support S3 keys beginning with a "/". Such objects may be shown in a listing but it will not be
+        possible through Tapis to reference the object directly using the key.
+
+        Note that for S3 this means a path of "/" or the empty string indicates all objects in the bucket with a prefix matching
+        *rootDir*, with any preceding "/" stripped off of *rootDir*
+
         Certain services may use the query parameter *impersonationId* to be used in place of the requesting
         Tapis user. Tapis will use this user Id when performing authorization and resolving the *effectiveUserId*
         for the system.
@@ -97,7 +111,7 @@ paths:
           example: system123
         - name: path
           in: path
-          description: path relative to system rootDir of bucket/directory
+          description: Path relative to the system *rootDir*
           required: true
           schema:
             type: string
@@ -183,7 +197,7 @@ paths:
             type: string
         - name: path
           in: path
-          description: File path
+          description: Path relative to the system *rootDir*
           required: true
           schema:
             type: string
@@ -235,6 +249,9 @@ paths:
       description: |
         The file or object will be uploaded at the {path} independent of the original name.
         Not supported for all system types.
+        
+        Note that for an S3 system an object will be created with a key of *rootDir*/{path} without a preceding
+        "/" character.
       operationId: insert
       parameters:
         - name: systemId
@@ -245,7 +262,7 @@ paths:
             type: string
         - name: path
           in: path
-          description: Path
+          description: Path relative to the system *rootDir*
           required: true
           schema:
             type: string
@@ -296,11 +313,15 @@ paths:
         - File Operations
       description: |
         Delete a file, directory or object on {systemID} at path {path}.
+ 
         For a LINUX directory this will be a recursive delete.
-        For an S3 system the path will represent either a single object or all objects under the system *rootDir* if
-        the path is /.
-        **WARNING** For an S3 system if the path is / then all objects in the bucket with a key matching the prefix
-        *rootDir* will be deleted.
+ 
+        For an S3 system, the path will represent either a single object or all objects in the bucket with a prefix
+        matching the system *rootDir* if the path is "/" or the empty string.
+ 
+        **WARNING** For an S3 system if the path is "/" or the empty string then all objects in the bucket with a
+        key matching the prefix *rootDir* will be deleted. So if the *rootDir* is "/" or the empty string then all
+        objects in the bucket will be removed.
       operationId: delete
       parameters:
         - name: systemId
@@ -311,7 +332,7 @@ paths:
             type: string
         - name: path
           in: path
-          description: File path
+          description: Path relative to the system *rootDir*
           required: true
           schema:
             type: string
@@ -429,7 +450,7 @@ paths:
           example: system123
         - name: path
           in: path
-          description: Path to a file or directory
+          description: Path relative to the system *rootDir*
           required: true
           schema:
             type: string
@@ -493,7 +514,7 @@ paths:
             type: string
         - name: path
           in: path
-          description: Path to a file or directory
+          description: Path relative to the system *rootDir*
           required: true
           schema:
             type: string
@@ -555,6 +576,7 @@ paths:
         - Content
       description: |
         Get file or directory contents as a stream of data. Not supported for all system types.
+
         Certain services may use the query parameter *impersonationId* to be used in place of the requesting
         Tapis user. Tapis will use this user Id when performing authorization and resolving the *effectiveUserId*
         for the system.
@@ -569,7 +591,7 @@ paths:
           example: system123
         - name: path
           in: path
-          description: File path
+          description: Path relative to the system *rootDir*
           required: true
           schema:
             type: string
@@ -719,6 +741,11 @@ paths:
           schema:
             type: string
           example: 6491c2a5-acb2-40ef-b2c0-bc1fc4cd7e6c
+        - name: impersonationId
+          in: query
+          description: Highly restricted. Only certain services may impersonate a Tapis user.
+          schema:
+            type: string
       responses:
         "200":
           description: OK
@@ -745,7 +772,7 @@ paths:
             type: string
         - name: path
           in: path
-          description: path
+          description: Path relative to the system *rootDir*
           required: true
           schema:
             type: string
@@ -776,7 +803,7 @@ paths:
             type: string
         - name: path
           in: path
-          description: path
+          description: Path relative to the system *rootDir*
           required: true
           schema:
             type: string
@@ -808,7 +835,7 @@ paths:
             type: string
         - name: path
           in: path
-          description: path
+          description: Path relative to the system *rootDir*
           required: true
           schema:
             type: string
