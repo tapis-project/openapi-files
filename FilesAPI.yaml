@@ -150,37 +150,37 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespFileList'
+                $ref: '#/components/schemas/FileListingResponse'
         "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "401":
           description: Not Authenticated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "403":
           description: Not Authorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "500":
           description: Internal Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
     put:
       tags:
         - File Operations
@@ -205,44 +205,44 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ReqMoveCopy'
+              $ref: '#/components/schemas/MoveCopyRequest'
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "401":
           description: Not Authenticated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "403":
           description: Not Authorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "500":
           description: Internal Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
     post:
       tags:
         - File Operations
@@ -283,31 +283,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "401":
           description: Not Authenticated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "403":
           description: Not Authorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "500":
           description: Internal Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
     delete:
       tags:
         - File Operations
@@ -342,37 +342,37 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "401":
           description: Not Authenticated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "403":
           description: Not Authorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "500":
           description: Internal Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
   /v3/files/ops/{systemId}:
     post:
       tags:
@@ -399,38 +399,38 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ReqMkdir'
+              $ref: '#/components/schemas/MkdirRequest'
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "401":
           description: Not Authenticated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "403":
           description: Not Authorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "500":
           description: Internal Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
 
   # --- Paths for /files/utils -----------------------------------------------------
   /v3/files/utils/linux/{systemId}/{path}:
@@ -468,37 +468,37 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespStatInfo'
+                $ref: '#/components/schemas/FileStatInfoResponse'
         "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "401":
           description: Not Authenticated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "403":
           description: Not Authorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "500":
           description: Internal Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
     post:
       tags:
         - File Operations
@@ -530,44 +530,44 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ReqNativeLinuxOp'
+              $ref: '#/components/schemas/NativeLinuxOpRequest'
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespNativeLinuxOp'
+                $ref: '#/components/schemas/NativeLinuxOpResultResponse'
         "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "401":
           description: Not Authenticated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "403":
           description: Not Authorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
         "500":
           description: Internal Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/FileStringResponse'
 
   # --- Paths for /files/content -------------------------------------------------
   /v3/files/content/{systemId}/{path}:
@@ -663,7 +663,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespTransferTaskList'
+                $ref: '#/components/schemas/TransferTaskListResponse'
     post:
       tags:
         - Transfers
@@ -674,7 +674,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ReqTransfer'
+              $ref: '#/components/schemas/TransferTaskRequest'
         required: true
       responses:
         "200":
@@ -682,7 +682,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespTransferTask'
+                $ref: '#/components/schemas/TransferTaskResponse'
   /v3/files/transfers/{transferTaskId}:
     get:
       tags:
@@ -704,7 +704,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespTransferTask'
+                $ref: '#/components/schemas/TransferTaskResponse'
     delete:
       tags:
         - Transfers
@@ -725,7 +725,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/StringResponse'
   /v3/files/transfers/{transferTaskId}/details:
     get:
       tags:
@@ -752,7 +752,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespTransferTask'
+                $ref: '#/components/schemas/TransferTaskResponse'
 
   # --- Paths for /files/permissions ---------------------------------------------
   /v3/files/permissions/{systemId}/{path}:
@@ -780,14 +780,14 @@ paths:
           in: query
           description: Username to list
           schema:
-            $ref: '#/components/schemas/UserNameString'
+            type: string
       responses:
         "200":
           description: FilePermission
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespPerm'
+                $ref: '#/components/schemas/FilePermissionResponse'
     post:
       tags:
         - Permissions
@@ -811,7 +811,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ReqCreatePerm'
+              $ref: '#/components/schemas/CreatePermissionRequest'
         required: true
       responses:
         "200":
@@ -819,7 +819,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespPerm'
+                $ref: '#/components/schemas/FilePermissionResponse'
     delete:
       tags:
         - Permissions
@@ -844,14 +844,14 @@ paths:
           description: Username to remove
           required: true
           schema:
-            $ref: '#/components/schemas/UserNameString'
+            type: string
       responses:
         "200":
           description: FilePermission
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespString'
+                $ref: '#/components/schemas/StringResponse'
 
   # --- Paths for /share and /unshare -------------------------------------------------------
   '/v3/files/share/{systemId}/{path}':
@@ -1097,6 +1097,15 @@ components:
     # ------------------------------------------------------------------------------
     # --- Model objects ------------------------------------------------------------
     # ------------------------------------------------------------------------------
+    HeaderByteRange:
+      type: object
+      properties:
+        min:
+          type: integer
+          format: int64
+        max:
+          type: integer
+          format: int64
     # --- FileInfo -----------------------------------------------------------------
     FileInfo:
       type: object
@@ -1124,15 +1133,21 @@ components:
           type: integer
           description: size in kB
           format: int64
-    HeaderByteRange:
+    FileListingResponse:
       type: object
       properties:
-        min:
-          type: integer
-          format: int64
-        max:
-          type: integer
-          format: int64
+        status:
+          type: string
+        message:
+          type: string
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileInfo'
+        version:
+          type: string
+        metadata:
+          type: object
     # --- FilePermission -----------------------------------------------------------
     FilePermission:
       type: object
@@ -1140,13 +1155,48 @@ components:
         tenantId:
           type: string
         username:
-          $ref: '#/components/schemas/UserNameString'
+          type: string
         systemId:
           type: string
         path:
           type: string
         permission:
           $ref: '#/components/schemas/PermEnum'
+    SharedFileObject:
+      type: object
+      properties:
+        creator:
+          type: string
+          description: Username who shared the file/directory
+        sharedWith:
+          type: string
+          description: Username who was granted access
+        created:
+          type: string
+          description: Creation timestamp in UTC
+        expiresIn:
+          type: integer
+          description: Number of seconds in which the share was set to expire.
+          format: int32
+        url:
+          type: string
+          description: Link to the shared file.
+    ShareFileRequest:
+      required:
+        - expiresIn
+        - username
+      type: object
+      properties:
+        username:
+          type: string
+          description: The user with which to share
+        expiresIn:
+          maximum: 604800
+          minimum: 1
+          type: integer
+          description: Time in seconds of expiration. minimum=1, maximum=604800 (1
+            week)
+          format: int32
     # --- TransferTask -------------------------------------------------------------
     TransferTask:
       type: object
@@ -1155,7 +1205,7 @@ components:
           type: integer
           format: int32
         username:
-          $ref: '#/components/schemas/UserNameString'
+          type: string
         tenantId:
           type: string
         tag:
@@ -1202,7 +1252,7 @@ components:
         tenantId:
           type: string
         username:
-          $ref: '#/components/schemas/UserNameString'
+          type: string
         sourceURI:
           type: string
         destinationURI:
@@ -1247,7 +1297,7 @@ components:
         tenantId:
           type: string
         username:
-          $ref: '#/components/schemas/UserNameString'
+          type: string
         sourceURI:
           type: string
         destinationURI:
@@ -1298,7 +1348,7 @@ components:
     # -------------------------------------------------------------------------
     # --- Request objects -----------------------------------------------------
     # -------------------------------------------------------------------------
-    ReqMkdir:
+    MkdirRequest:
       required:
         - path
       type: object
@@ -1306,7 +1356,7 @@ components:
         path:
           pattern: ^(?!.*\.\.).*
           type: string
-    ReqMoveCopy:
+    MoveCopyRequest:
       required:
         - newPath
         - operation
@@ -1320,14 +1370,14 @@ components:
         newPath:
           type: string
           description: Paths must be absolute, ../.. is not allowed
-    ReqCreatePerm:
+    CreatePermissionRequest:
       required:
         - permission
         - username
       type: object
       properties:
         username:
-          $ref: '#/components/schemas/UserNameString'
+          type: string
         permission:
           $ref: '#/components/schemas/PermEnum'
     ReqShareUpdate:
@@ -1340,7 +1390,9 @@ components:
           minItems: 1
           items:
             $ref: '#/components/schemas/UserNameString'
-    ReqTransfer:
+
+
+    TransferTaskRequest:
       required:
         - elements
       type: object
@@ -1350,8 +1402,8 @@ components:
         elements:
           type: array
           items:
-            $ref: '#/components/schemas/ReqTransferElement'
-    ReqTransferElement:
+            $ref: '#/components/schemas/TransferTaskRequestElement'
+    TransferTaskRequestElement:
       required:
         - destinationURI
         - sourceURI
@@ -1373,7 +1425,7 @@ components:
           type: boolean
           default: false
           description: Certain services may indicate that the request is in a shared context.
-    ReqNativeLinuxOp:
+    NativeLinuxOpRequest:
       required:
         - argument
         - operation
@@ -1404,6 +1456,32 @@ components:
           type: object
         metadata:
           type: object
+    FileStringResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        result:
+          type: string
+        version:
+          type: string
+        metadata:
+          type: object
+    StringResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        result:
+          type: string
+        version:
+          type: string
+        metadata:
+          type: object
     RespString:
       type: object
       properties:
@@ -1432,7 +1510,7 @@ components:
           type: string
         metadata:
           type: object
-    RespStatInfo:
+    FileStatInfoResponse:
       type: object
       properties:
         status:
@@ -1440,12 +1518,12 @@ components:
         message:
           type: string
         result:
-          $ref: '#/components/schemas/ResultStatInfo'
+          $ref: '#/components/schemas/FileStatInfo'
         version:
           type: string
         metadata:
           type: object
-    ResultStatInfo:
+    FileStatInfo:
       type: object
       properties:
         absolutePath:
@@ -1471,7 +1549,7 @@ components:
           type: boolean
         link:
           type: boolean
-    RespNativeLinuxOp:
+    NativeLinuxOpResponse:
       type: object
       properties:
         status:
@@ -1479,12 +1557,12 @@ components:
         message:
           type: string
         result:
-          $ref: '#/components/schemas/ResultNativeLinuxOp'
+          $ref: '#/components/schemas/NativeLinuxOpResultResponse'
         version:
           type: string
         metadata:
           type: object
-    ResultNativeLinuxOp:
+    NativeLinuxOpResultResponse:
       type: object
       properties:
         command:
@@ -1496,7 +1574,7 @@ components:
           type: string
         stdErr:
           type: string
-    RespPerm:
+    FilePermissionResponse:
       type: object
       properties:
         status:
@@ -1549,7 +1627,7 @@ components:
         path:
           type: string
           description: Path that resulted in specified path being shared with the user
-    RespTransferTask:
+    TransferTaskResponse:
       type: object
       properties:
         status:
@@ -1562,7 +1640,7 @@ components:
           type: string
         metadata:
           type: object
-    RespTransferTaskList:
+    TransferTaskListResponse:
       type: object
       properties:
         status:
