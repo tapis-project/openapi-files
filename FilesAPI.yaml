@@ -674,7 +674,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TransferTaskRequest'
+              $ref: '#/components/schemas/ReqTransfer'
         required: true
       responses:
         "200":
@@ -1390,9 +1390,7 @@ components:
           minItems: 1
           items:
             $ref: '#/components/schemas/UserNameString'
-
-
-    TransferTaskRequest:
+    ReqTransfer:
       required:
         - elements
       type: object
@@ -1402,8 +1400,8 @@ components:
         elements:
           type: array
           items:
-            $ref: '#/components/schemas/TransferTaskRequestElement'
-    TransferTaskRequestElement:
+            $ref: '#/components/schemas/ReqTransferElement'
+    ReqTransferElement:
       required:
         - destinationURI
         - sourceURI
