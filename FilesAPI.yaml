@@ -94,6 +94,10 @@ paths:
 
         Note that for S3 this means a path of "/" or the empty string indicates all objects in the bucket with a prefix matching
         *rootDir*, with any preceding "/" stripped off of *rootDir*
+
+        Certain services may use the query parameter *impersonationId* to be used in place of the requesting
+        Tapis user. Tapis will use this user Id when performing authorization and resolving the *effectiveUserId*
+        for the system.
       operationId: listFiles
       parameters:
         - name: systemId
@@ -135,7 +139,7 @@ paths:
           example: false
         - name: impersonationId
           in: query
-          description: Highly restricted. Only certain services may impersonate a Tapis user.
+          description: Restricted. Only certain services may impersonate a Tapis user.
           schema:
             type: string
       responses:
@@ -373,6 +377,8 @@ paths:
         - File Operations
       description: |
         Create a directory on the system at the given path. Not supported for all system types.
+        Certain services may use the query parameter *sharedAppCtx* to indicate that the request is in a shared
+        application context. Tapis authorization will be bypassed.
       operationId: mkdir
       parameters:
         - name: systemId
@@ -381,6 +387,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: sharedAppCtx
+          in: query
+          description: Restricted. Only certain services may indicate that the request is in a shared context.
+          schema:
+            type: boolean
+            default: false
       requestBody:
         content:
           application/json:
@@ -562,6 +574,10 @@ paths:
         - Content
       description: |
         Get file or directory contents as a stream of data. Not supported for all system types.
+
+        Certain services may use the query parameter *impersonationId* to be used in place of the requesting
+        Tapis user. Tapis will use this user Id when performing authorization and resolving the *effectiveUserId*
+        for the system.
       operationId: getContents
       parameters:
         - name: systemId
@@ -599,7 +615,7 @@ paths:
             format: int64
         - name: impersonationId
           in: query
-          description: Highly restricted. Only certain services may impersonate a Tapis user.
+          description: Restricted. Only certain services may impersonate a Tapis user.
           schema:
             type: string
       responses:
@@ -656,7 +672,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TransferTaskRequest'
+              $ref: '#/components/schemas/ReqTransfer'
         required: true
       responses:
         "200":
@@ -837,8 +853,12 @@ paths:
 
 # ------------------------------------------------------------------------------
 # --- Components ---------------------------------------------------------------
+# ------------------------------------------------------------------------------
 components:
   schemas:
+    # ------------------------------------------------------------------------------
+    # --- Model objects ------------------------------------------------------------
+    # ------------------------------------------------------------------------------
     HeaderByteRange:
       type: object
       properties:
@@ -848,27 +868,7 @@ components:
         max:
           type: integer
           format: int64
-    FileStringResponse:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
-        result:
-          type: string
-        version:
-          type: string
-        metadata:
-          type: object
-    MkdirRequest:
-      required:
-        - path
-      type: object
-      properties:
-        path:
-          pattern: ^(?!.*\.\.).*
-          type: string
+    # --- FileInfo -----------------------------------------------------------------
     FileInfo:
       type: object
       properties:
@@ -895,6 +895,33 @@ components:
           type: integer
           description: size in kB
           format: int64
+    # --- FileStatInfo -----------------------------------------------------------------
+    FileStatInfo:
+      type: object
+      properties:
+        absolutePath:
+          type: string
+        uid:
+          type: integer
+          format: int32
+        gid:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int64
+        perms:
+          type: string
+        accessTime:
+          type: integer
+          format: int64
+        modifyTime:
+          type: integer
+          format: int64
+        dir:
+          type: boolean
+        link:
+          type: boolean
     FileListingResponse:
       type: object
       properties:
@@ -910,20 +937,7 @@ components:
           type: string
         metadata:
           type: object
-    MoveCopyRequest:
-      required:
-        - newPath
-        - operation
-      type: object
-      properties:
-        operation:
-          type: string
-          enum:
-            - MOVE
-            - COPY
-        newPath:
-          type: string
-          description: Paths must be absolute, ../.. is not allowed
+    # --- FilePermission -----------------------------------------------------------
     FilePermission:
       type: object
       properties:
@@ -937,55 +951,6 @@ components:
           type: string
         permission:
           $ref: '#/components/schemas/PermEnum'
-    FilePermissionResponse:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
-        result:
-          $ref: '#/components/schemas/FilePermission'
-        version:
-          type: string
-        metadata:
-          type: object
-    TapisResponseFilePermission:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
-        result:
-          $ref: '#/components/schemas/FilePermission'
-        version:
-          type: string
-        metadata:
-          type: object
-    CreatePermissionRequest:
-      required:
-        - permission
-        - username
-      type: object
-      properties:
-        username:
-          type: string
-        permission:
-          $ref: '#/components/schemas/PermEnum'
-    StringResponse:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
-        result:
-          type: string
-        version:
-          type: string
-        metadata:
-          type: object
     SharedFileObject:
       type: object
       properties:
@@ -1021,6 +986,7 @@ components:
           description: Time in seconds of expiration. minimum=1, maximum=604800 (1
             week)
           format: int32
+    # --- TransferTask -------------------------------------------------------------
     TransferTask:
       type: object
       properties:
@@ -1065,6 +1031,52 @@ components:
         endTime:
           type: string
           format: date-time
+    # --- TransferTaskParent -------------------------------------------------------
+    TransferTaskParent:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        tenantId:
+          type: string
+        username:
+          type: string
+        sourceURI:
+          type: string
+        destinationURI:
+          type: string
+        totalBytes:
+          type: integer
+          format: int64
+        bytesTransferred:
+          type: integer
+          format: int64
+        taskId:
+          type: integer
+          format: int32
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransferTaskChild'
+        errorMessage:
+          type: string
+        uuid:
+          type: string
+          description: Unique ID of the task.
+          format: uuid
+        status:
+          $ref: '#/components/schemas/TransferStatusEnum'
+        created:
+          type: string
+          format: date-time
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+    # --- TransferTaskChild --------------------------------------------------------
     TransferTaskChild:
       type: object
       properties:
@@ -1113,79 +1125,51 @@ components:
         endTime:
           type: string
           format: date-time
-    TransferTaskListResponse:
+    # --- String types with constraints ------------------------------------
+    IdString:
+      type: string
+      minLength: 1
+      maxLength: 80
+    UserNameString:
+      type: string
+      minLength: 1
+      maxLength: 60
+    # -------------------------------------------------------------------------
+    # --- Request objects -----------------------------------------------------
+    # -------------------------------------------------------------------------
+    MkdirRequest:
+      required:
+        - path
       type: object
       properties:
-        status:
+        path:
+          pattern: ^(?!.*\.\.).*
           type: string
-        message:
-          type: string
-        result:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransferTask'
-        version:
-          type: string
-        metadata:
-          type: object
-    TransferTaskParent:
+    MoveCopyRequest:
+      required:
+        - newPath
+        - operation
       type: object
       properties:
-        id:
-          type: integer
-          format: int32
-        tenantId:
+        operation:
           type: string
+          enum:
+            - MOVE
+            - COPY
+        newPath:
+          type: string
+          description: Paths must be absolute, ../.. is not allowed
+    CreatePermissionRequest:
+      required:
+        - permission
+        - username
+      type: object
+      properties:
         username:
           type: string
-        sourceURI:
-          type: string
-        destinationURI:
-          type: string
-        totalBytes:
-          type: integer
-          format: int64
-        bytesTransferred:
-          type: integer
-          format: int64
-        taskId:
-          type: integer
-          format: int32
-        children:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransferTaskChild'
-        errorMessage:
-          type: string
-        uuid:
-          type: string
-          description: Unique ID of the task.
-          format: uuid
-        status:
-          $ref: '#/components/schemas/TransferStatusEnum'
-        created:
-          type: string
-          format: date-time
-        startTime:
-          type: string
-          format: date-time
-        endTime:
-          type: string
-          format: date-time
-    TransferTaskResponse:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
-        result:
-          $ref: '#/components/schemas/TransferTask'
-        version:
-          type: string
-        metadata:
-          type: object
-    TransferTaskRequest:
+        permission:
+          $ref: '#/components/schemas/PermEnum'
+    ReqTransfer:
       required:
         - elements
       type: object
@@ -1195,8 +1179,8 @@ components:
         elements:
           type: array
           items:
-            $ref: '#/components/schemas/TransferTaskRequestElement'
-    TransferTaskRequestElement:
+            $ref: '#/components/schemas/ReqTransferElement'
+    ReqTransferElement:
       required:
         - destinationURI
         - sourceURI
@@ -1208,34 +1192,86 @@ components:
           type: string
         optional:
           type: boolean
-          description: Allow the full transfer to succeed even if this portion fails?
-            Default is false
-    FileStatInfo:
+          default: false
+          description: Allow the full transfer to succeed even if this element fails.
+        srcSharedAppCtx:
+          type: boolean
+          default: false
+          description: Certain services may indicate that the request is in a shared context.
+        destSharedAppCtx:
+          type: boolean
+          default: false
+          description: Certain services may indicate that the request is in a shared context.
+    NativeLinuxOpRequest:
+      required:
+        - argument
+        - operation
       type: object
       properties:
-        absolutePath:
+        operation:
           type: string
-        uid:
-          type: integer
-          format: int32
-        gid:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int64
-        perms:
+          enum:
+            - CHMOD
+            - CHOWN
+            - CHGRP
+        argument:
           type: string
-        accessTime:
-          type: integer
-          format: int64
-        modifyTime:
-          type: integer
-          format: int64
-        dir:
-          type: boolean
-        link:
-          type: boolean
+          description: Argument for native linux operation
+    # -------------------------------------------------------------------------
+    # --- Response objects ----------------------------------------------------
+    # -------------------------------------------------------------------------
+    RespBasic:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        result:
+          type: object
+        metadata:
+          type: object
+    FileStringResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        result:
+          type: string
+        version:
+          type: string
+        metadata:
+          type: object
+    StringResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        result:
+          type: string
+        version:
+          type: string
+        metadata:
+          type: object
+    RespString:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        result:
+          type: string
+        version:
+          type: string
+        metadata:
+          type: object
     FileStatInfoResponse:
       type: object
       properties:
@@ -1274,35 +1310,45 @@ components:
           type: string
         metadata:
           type: object
-    NativeLinuxOpRequest:
-      required:
-        - argument
-        - operation
-      type: object
-      properties:
-        operation:
-          type: string
-          enum:
-            - CHMOD
-            - CHOWN
-            - CHGRP
-        argument:
-          type: string
-          description: Argument for native linux operation
-    # -------------------------------------------------------------------------
-    # --- Response objects ----------------------------------------------------
-    # -------------------------------------------------------------------------
-    RespBasic:
+    FilePermissionResponse:
       type: object
       properties:
         status:
           type: string
         message:
           type: string
+        result:
+          $ref: '#/components/schemas/FilePermission'
         version:
           type: string
-        result:
+        metadata:
           type: object
+    TransferTaskResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        result:
+          $ref: '#/components/schemas/TransferTask'
+        version:
+          type: string
+        metadata:
+          type: object
+    TransferTaskListResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransferTask'
+        version:
+          type: string
         metadata:
           type: object
     # -------------------------------------------------------------------------
