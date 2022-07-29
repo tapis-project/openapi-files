@@ -1133,6 +1133,33 @@ components:
           type: integer
           description: size in kB
           format: int64
+    # --- FileStatInfo -----------------------------------------------------------------
+    FileStatInfo:
+      type: object
+      properties:
+        absolutePath:
+          type: string
+        uid:
+          type: integer
+          format: int32
+        gid:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int64
+        perms:
+          type: string
+        accessTime:
+          type: integer
+          format: int64
+        modifyTime:
+          type: integer
+          format: int64
+        dir:
+          type: boolean
+        link:
+          type: boolean
     FileListingResponse:
       type: object
       properties:
@@ -1521,32 +1548,6 @@ components:
           type: string
         metadata:
           type: object
-    FileStatInfo:
-      type: object
-      properties:
-        absolutePath:
-          type: string
-        uid:
-          type: integer
-          format: int32
-        gid:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int64
-        perms:
-          type: string
-        accessTime:
-          type: integer
-          format: int64
-        modifyTime:
-          type: integer
-          format: int64
-        dir:
-          type: boolean
-        link:
-          type: boolean
     NativeLinuxOpResponse:
       type: object
       properties:
