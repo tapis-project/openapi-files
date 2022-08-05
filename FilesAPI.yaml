@@ -35,7 +35,7 @@ tags:
   - name: Permissions
     description: Manage Tapis permissions for file resources on Tapis systems.
   - name: Sharing
-    description: Manage Tapis sharing for file resources. Share, unshare, make public.
+    description: Manage Tapis sharing for file resources. Share and unshare with users. Share and unshare publicly.
 
 # ------------------------------------------------------------------------------
 # --- Paths -------------------------------------------------------------------
@@ -1072,6 +1072,51 @@ paths:
       responses:
         '200':
           description: Path public access removed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+
+  '/v3/files/unshare_all/{systemId}/{path}':
+    post:
+      tags:
+        - Sharing
+      summary: Remove all shares for a path on a system including public access.
+      description: |
+        Remove all shares for a path on a system including public access. This will also be done for all sub-paths.
+      operationId: unSharePathAll
+      parameters:
+        - name: systemId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/IdString'
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: recurse
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: All share access removed.
           content:
             application/json:
               schema:
