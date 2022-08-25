@@ -34,6 +34,8 @@ tags:
     description: Manage file transfers. Initiate, cancel and retrieve status.
   - name: Permissions
     description: Manage Tapis permissions for file resources on Tapis systems.
+  - name: Sharing
+    description: Manage Tapis sharing for file resources. Share and unshare with users. Share and unshare publicly.
 
 # ------------------------------------------------------------------------------
 # --- Paths -------------------------------------------------------------------
@@ -851,6 +853,287 @@ paths:
               schema:
                 $ref: '#/components/schemas/StringResponse'
 
+  # --- Paths for /share and /unshare -------------------------------------------------------
+  '/v3/files/share/{systemId}/{path}':
+    get:
+      tags:
+        - Sharing
+      summary: Retrieve all sharing information for a path on a system
+      description: |
+        Retrieve all sharing information for a path on a system. This includes all users with whom the path
+        has been shared and whether or not the path has been made publicly available.
+      operationId: getShareInfo
+      parameters:
+        - name: systemId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/IdString'
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespShareInfo'
+        '400':
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '404':
+          description: System not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+    post:
+      tags:
+        - Sharing
+      summary: Share a path on a system with one or more users.
+      description: |
+        Create or update sharing information for a path on a system. The path will be shared with the list of users
+        provided in the request body. Requester must be owner of the system. For LINUX systems path sharing is
+        hierarchical.
+      operationId: sharePath
+      parameters:
+        - name: systemId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/IdString'
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: A JSON object specifying updated sharing information.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReqShareUpdate'
+      responses:
+        '200':
+          description: Sharing information updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '400':
+          description: Input error. Invalid JSON.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+
+  '/v3/files/share_public/{systemId}/{path}':
+    post:
+      tags:
+        - Sharing
+      summary: Share a path on a system publicly with all users in the tenant.
+      description: |
+        Share a path on a system with all users in the tenant. Requester must be owner of the system.
+      operationId: sharePathPublic
+      parameters:
+        - name: systemId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/IdString'
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Path shared publicly.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+
+  '/v3/files/unshare/{systemId}/{path}':
+    post:
+      tags:
+        - Sharing
+      summary: Unshare a path on a system with one or more users.
+      description: |
+        Create or update sharing information for a path on a system. The path will be unshared with the list of users
+        provided in the request body. Requester must be owner of the system.
+      operationId: unSharePath
+      parameters:
+        - name: systemId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/IdString'
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: A JSON object specifying updated sharing information.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReqShareUpdate'
+      responses:
+        '200':
+          description: Sharing information updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '400':
+          description: Input error. Invalid JSON.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+
+  '/v3/files/unshare_public/{systemId}/{path}':
+    post:
+      tags:
+        - Sharing
+      summary: Remove public access for a path on a system.
+      description: |
+        Remove public sharing for a path on a system. Requester must be owner of the system.
+      operationId: unSharePathPublic
+      parameters:
+        - name: systemId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/IdString'
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Path public access removed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+
+  '/v3/files/unshare_all/{systemId}/{path}':
+    post:
+      tags:
+        - Sharing
+      summary: Remove all shares for a path on a system including public access.
+      description: |
+        Remove all shares for a path on a system including public access. This will also be done for all sub-paths.
+      operationId: unSharePathAll
+      parameters:
+        - name: systemId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/IdString'
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: recurse
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: All share access removed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+
 # ------------------------------------------------------------------------------
 # --- Components ---------------------------------------------------------------
 # ------------------------------------------------------------------------------
@@ -1169,6 +1452,16 @@ components:
           type: string
         permission:
           $ref: '#/components/schemas/PermEnum'
+    ReqShareUpdate:
+      type: object
+      required:
+        - users
+      properties:
+        users:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/UserNameString'
     ReqTransfer:
       required:
         - elements
@@ -1272,6 +1565,21 @@ components:
           type: string
         metadata:
           type: object
+    RespFileList:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileInfo'
+        version:
+          type: string
+        metadata:
+          type: object
     FileStatInfoResponse:
       type: object
       properties:
@@ -1285,7 +1593,20 @@ components:
           type: string
         metadata:
           type: object
-    NativeLinuxOpResult:
+    NativeLinuxOpResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        result:
+          $ref: '#/components/schemas/NativeLinuxOpResultResponse'
+        version:
+          type: string
+        metadata:
+          type: object
+    NativeLinuxOpResultResponse:
       type: object
       properties:
         command:
@@ -1297,19 +1618,6 @@ components:
           type: string
         stdErr:
           type: string
-    NativeLinuxOpResultResponse:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
-        result:
-          $ref: '#/components/schemas/NativeLinuxOpResult'
-        version:
-          type: string
-        metadata:
-          type: object
     FilePermissionResponse:
       type: object
       properties:
@@ -1323,6 +1631,46 @@ components:
           type: string
         metadata:
           type: object
+    RespShareInfo:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        result:
+          $ref: '#/components/schemas/ResultShareInfo'
+        metadata:
+          type: object
+    ResultShareInfo:
+      type: object
+      properties:
+        isPublic:
+          type: boolean
+          description: Indicates given path is shared publicly
+        isPublicPath:
+          type: string
+          description: Path that resulted in specified path being shared publicly
+        userSet:
+          type: array
+          description: Set of users with whom the path is shared.
+          items:
+            $ref: '#/components/schemas/UserNameString'
+        userShareInfoSet:
+          type: array
+          description: List of additional share information for each user.
+          items:
+            $ref: '#/components/schemas/UserShareInfo'
+    UserShareInfo:
+      type: object
+      properties:
+        username:
+          $ref: '#/components/schemas/UserNameString'
+        path:
+          type: string
+          description: Path that resulted in specified path being shared with the user
     TransferTaskResponse:
       type: object
       properties:
