@@ -33,9 +33,18 @@ tags:
   - name: Transfers
     description: Manage file transfers. Initiate, cancel and retrieve status.
   - name: Permissions
-    description: Manage Tapis permissions for file resources on Tapis systems.
+    description: |
+      The permissions model allows for fine grained access control of paths on a Tapis system. The system owner
+      may grant READ and MODIFY permission to specific users. MODIFY implies READ.
+  
+      Please note that Tapis permissions are independent of native permissions enforced by the underlying system host.
   - name: Sharing
-    description: Manage Tapis sharing for file resources. Share and unshare with users. Share and unshare publicly.
+    description: |
+      In addition to fine grained permissions support, Tapis also supports a higher level approach to granting access.
+      This approach is known simply as *sharing*. The sharing API allows you to share a path with a set of users
+      as well as share publicly with all users in a tenant. Sharing a path grants users READ access to the path.
+      
+      Please note that the underlying host associated with a system typically also has it's own access controls.
 
 # ------------------------------------------------------------------------------
 # --- Paths -------------------------------------------------------------------
