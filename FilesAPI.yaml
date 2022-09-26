@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Tapis Files API
   description: The Tapis Files API provides for management of file resources on Tapis systems
-  version: '1.2.3'
+  version: '1.2.5'
   termsOfService: "https://tapis-project.org"
   contact:
     name: "Files API - CICSupport"
@@ -600,6 +600,9 @@ paths:
         Certain services may use the query parameter *impersonationId* to be used in place of the requesting
         Tapis user. Tapis will use this user Id when performing authorization and resolving the *effectiveUserId*
         for the system.
+        
+        Certain services may use the query parameter *sharedAppCtx* to indicate that the request is in a shared
+        application context. Tapis authorization will be bypassed.
       operationId: getContents
       parameters:
         - name: systemId
@@ -640,6 +643,12 @@ paths:
           description: Restricted. Only certain services may impersonate a Tapis user.
           schema:
             type: string
+        - name: sharedAppCtx
+          in: query
+          description: Restricted. Only certain services may indicate that the request is in a shared context.
+          schema:
+            type: boolean
+            default: false
       responses:
         "200":
           description: OK
