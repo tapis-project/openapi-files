@@ -95,6 +95,8 @@ paths:
         they will be posix files and for S3 they will be storage objects. For S3 the recurse flag is ignored and all
         objects with keys matching the path as a prefix are included.
         
+        For system types that support directory hierarchies the maximum recursion depth is 20.
+        
         Note that S3 buckets do not have a hierarchical structure. There are no directories. Everything is an object
         associated with a key.
         
@@ -148,7 +150,7 @@ paths:
           example: 1000
         - name: recurse
           in: query
-          description: recursive listing
+          description: Recursive listing. Maximum recursion depth is 20.
           schema:
             type: boolean
             default: false
@@ -540,8 +542,7 @@ paths:
             type: string
         - name: recursive
           in: query
-          description: If path is a directory this indicates whether or not to apply
-            the changes recursively
+          description: If path is a directory this indicates whether or not to apply the changes recursively
           schema:
             type: boolean
             default: false
