@@ -99,16 +99,6 @@ paths:
         
         Note that S3 buckets do not have a hierarchical structure. There are no directories. Everything is an object
         associated with a key.
-        
-        In S3 Tapis support, the difference between a key and an absolute path is the absolute path starts with a "/"
-        and the key does not. So for the final fully resolved key to the object the absolute path is used with the
-        initial "/" stripped off.
-        
-        Tapis does not support S3 keys beginning with a "/". Such objects may be shown in a listing but it will not be
-        possible through Tapis to reference the object directly using the key.
-
-        Note that for S3 this means a path of "/" or the empty string indicates all objects in the bucket with a prefix matching
-        *rootDir*, with any preceding "/" stripped off of *rootDir*
 
         Certain services may use the query parameter *impersonationId* to be used in place of the requesting
         Tapis user. Tapis will use this user Id when performing authorization and resolving the *effectiveUserId*
@@ -271,9 +261,6 @@ paths:
       description: |
         The file or object will be uploaded at the {path} independent of the original name.
         Not supported for all system types.
-        
-        Note that for an S3 system an object will be created with a key of *rootDir*/{path} without a preceding
-        "/" character.
       operationId: insert
       parameters:
         - name: systemId
@@ -339,11 +326,11 @@ paths:
         For a LINUX directory this will be a recursive delete.
  
         For an S3 system, the path will represent either a single object or all objects in the bucket with a prefix
-        matching the system *rootDir* if the path is "/" or the empty string.
+        matching the system *rootDir* if the path is the empty string.
  
-        **WARNING** For an S3 system if the path is "/" or the empty string then all objects in the bucket with a
-        key matching the prefix *rootDir* will be deleted. So if the *rootDir* is "/" or the empty string then all
-        objects in the bucket will be removed.
+        **WARNING** For an S3 system if the path is the empty string then all objects in the bucket with a key matching
+        the prefix *rootDir* will be deleted. So if the *rootDir* is the empty string then all objects in the bucket
+        will be removed.
       operationId: delete
       parameters:
         - name: systemId
@@ -698,7 +685,7 @@ paths:
       tags:
         - Transfers
       description: |
-        Create a background task which will transfer paths between systems.
+        Create a background task which will transfer files between systems.
       operationId: createTransferTask
       requestBody:
         content:
