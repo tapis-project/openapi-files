@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Tapis Files API
   description: The Tapis Files API provides for management of file resources on Tapis systems
-  version: '1.2.5'
+  version: '1.2.6'
   termsOfService: "https://tapis-project.org"
   contact:
     name: "Files API - CICSupport"
@@ -91,7 +91,7 @@ paths:
       tags:
         - File Operations
       description: |
-        List files or objects on a Tapis system. Type for items will depend on system type. For example for LINUX
+        List files or objects on a Tapis system. Type for items will depend on system type. For example, for LINUX
         they will be posix files and for S3 they will be storage objects. For S3 the recurse flag is ignored and all
         objects with keys matching the path as a prefix are included.
         
@@ -328,8 +328,8 @@ paths:
         For an S3 system, the path will represent either a single object or all objects in the bucket with a prefix
         matching the system *rootDir* if the path is the empty string.
  
-        **WARNING** For an S3 system if the path is the empty string then all objects in the bucket with a key matching
-        the prefix *rootDir* will be deleted. So if the *rootDir* is the empty string then all objects in the bucket
+        **WARNING** For an S3 system if the path is the empty string, then all objects in the bucket with a key matching
+        the prefix *rootDir* will be deleted. So if the *rootDir* is also the empty string, then all objects in the bucket
         will be removed.
       operationId: delete
       parameters:
