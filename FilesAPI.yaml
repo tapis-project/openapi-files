@@ -157,37 +157,37 @@ paths:
             type: boolean
             default: false
       responses:
-        "200":
+        '200':
           description: A list of files
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileListingResponse'
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "401":
+        '401':
           description: Not Authenticated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "403":
-          description: Not Authorized
+        '403':
+          description: Permission Denied
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "404":
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "500":
+        '500':
           description: Internal Error
           content:
             application/json:
@@ -219,37 +219,37 @@ paths:
             schema:
               $ref: '#/components/schemas/MoveCopyRequest'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "401":
+        '401':
           description: Not Authenticated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "403":
-          description: Not Authorized
+        '403':
+          description: Permission Denied
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "404":
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "500":
+        '500':
           description: Internal Error
           content:
             application/json:
@@ -260,7 +260,6 @@ paths:
         - File Operations
       description: |
         The file or object will be uploaded at the {path} independent of the original name.
-        Not supported for all system types.
       operationId: insert
       parameters:
         - name: systemId
@@ -287,31 +286,31 @@ paths:
                   type: string
                   format: binary
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "401":
+        '401':
           description: Not Authenticated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "403":
-          description: Not Authorized
+        '403':
+          description: Permission Denied
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "500":
+        '500':
           description: Internal Error
           content:
             application/json:
@@ -346,37 +345,37 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "401":
+        '401':
           description: Not Authenticated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "403":
-          description: Not Authorized
+        '403':
+          description: Permission Denied
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "404":
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "500":
+        '500':
           description: Internal Error
           content:
             application/json:
@@ -387,7 +386,8 @@ paths:
       tags:
         - File Operations
       description: |
-        Create a directory on the system at the given path. Not supported for all system types.
+        Create a directory on the system at the given path. Not supported for all system types. Currently supported
+        for LINUX and IRODS type systems.
         Certain services may use the query parameter *sharedAppCtx* to indicate that the request is in a shared
         application context. Tapis authorization will be bypassed.
       operationId: mkdir
@@ -410,31 +410,31 @@ paths:
             schema:
               $ref: '#/components/schemas/MkdirRequest'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "401":
+        '401':
           description: Not Authenticated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "403":
-          description: Not Authorized
+        '403':
+          description: Permission Denied
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "500":
+        '500':
           description: Internal Error
           content:
             application/json:
@@ -472,37 +472,37 @@ paths:
             default: false
           example: true
       responses:
-        "200":
+        '200':
           description: Linux stat information for the file or directory.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStatInfoResponse'
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "401":
+        '401':
           description: Not Authenticated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "403":
-          description: Not Authorized
+        '403':
+          description: Permission Denied
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "404":
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "500":
+        '500':
           description: Internal Error
           content:
             application/json:
@@ -540,37 +540,37 @@ paths:
             schema:
               $ref: '#/components/schemas/NativeLinuxOpRequest'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NativeLinuxOpResultResponse'
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "401":
+        '401':
           description: Not Authenticated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "403":
-          description: Not Authorized
+        '403':
+          description: Permission Denied
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "404":
+        '404':
           description: Not Found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        "500":
+        '500':
           description: Internal Error
           content:
             application/json:
@@ -583,7 +583,7 @@ paths:
       tags:
         - Content
       description: |
-        Get file or directory contents as a stream of data. Not supported for all system types.
+        Get file or directory contents as a stream of data.
 
         Certain services may use the query parameter *impersonationId* to be used in place of the requesting
         Tapis user. Tapis will use this user Id when performing authorization and resolving the *effectiveUserId*
@@ -642,16 +642,16 @@ paths:
             type: boolean
             default: false
       responses:
-        "200":
+        '200':
           description: OK
-        "400":
+        '400':
           description: Bad Request
-        "401":
+        '401':
           description: Not Authenticated
-        "404":
+        '404':
           description: Not Found
-        "403":
-          description: Not Authorized
+        '403':
+          description: Permission Denied
 
   # --- Paths for /files/transfers -----------------------------------------------
   /v3/files/transfers:
@@ -679,7 +679,7 @@ paths:
             default: 0
           example: 1000
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
@@ -698,7 +698,7 @@ paths:
               $ref: '#/components/schemas/ReqTransfer'
         required: true
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
@@ -720,7 +720,7 @@ paths:
             type: string
           example: 6491c2a5-acb2-40ef-b2c0-bc1fc4cd7e6c
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
@@ -741,7 +741,7 @@ paths:
             type: string
           example: 6491c2a5-acb2-40ef-b2c0-bc1fc4cd7e6c
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
@@ -768,7 +768,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
@@ -803,7 +803,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: FilePermission
           content:
             application/json:
@@ -835,7 +835,7 @@ paths:
               $ref: '#/components/schemas/CreatePermissionRequest'
         required: true
       responses:
-        "200":
+        '200':
           description: FilePermission
           content:
             application/json:
@@ -867,7 +867,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: FilePermission
           content:
             application/json:
@@ -908,8 +908,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespBasic'
-        '401':
-          description: Not authorized.
+        '403':
+          description: Permission Denied
           content:
             application/json:
               schema:
@@ -966,8 +966,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespBasic'
-        '401':
-          description: Not authorized.
+        '403':
+          description: Permission Denied
           content:
             application/json:
               schema:
@@ -1005,8 +1005,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespBasic'
-        '401':
-          description: Not authorized.
+        '403':
+          description: Permission Denied
           content:
             application/json:
               schema:
@@ -1058,8 +1058,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespBasic'
-        '401':
-          description: Not authorized.
+        '403':
+          description: Permission Denied
           content:
             application/json:
               schema:
@@ -1097,8 +1097,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespBasic'
-        '401':
-          description: Not authorized.
+        '403':
+          description: Permission Denied
           content:
             application/json:
               schema:
@@ -1142,8 +1142,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespBasic'
-        '401':
-          description: Not authorized.
+        '403':
+          description: Permission Denied
           content:
             application/json:
               schema:
