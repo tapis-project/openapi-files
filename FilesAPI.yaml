@@ -121,7 +121,7 @@ paths:
           required: true
           schema:
             type: string
-          example: /directoryA/directoryB/
+          example: directoryA/directoryB/
         - name: limit
           in: query
           description: pagination limit
@@ -463,7 +463,7 @@ paths:
           required: true
           schema:
             type: string
-          example: /directoryA/file1
+          example: directoryA/file1
         - name: followLinks
           in: query
           description: When path is a symbolic link whether to get information about the link (false) or the link target (true)
@@ -610,7 +610,7 @@ paths:
           required: true
           schema:
             type: string
-          example: /directoryA/directoryB/
+          example: directoryA/directoryB/
         - name: range
           in: header
           description: Optional range of bytes to send. If not specified all content
@@ -764,7 +764,7 @@ paths:
           example: 6491c2a5-acb2-40ef-b2c0-bc1fc4cd7e6c
         - name: impersonationId
           in: query
-          description: Highly restricted. Only certain services may impersonate a Tapis user.
+          description: Restricted. Only certain services may impersonate a Tapis user.
           schema:
             type: string
       responses:
