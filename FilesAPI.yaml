@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Tapis Files API
   description: The Tapis Files API provides for management of file resources on Tapis systems
-  version: '1.2.7'
+  version: '1.2.8'
   termsOfService: "https://tapis-project.org"
   contact:
     name: "Files API - CICSupport"
