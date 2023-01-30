@@ -1687,6 +1687,7 @@ components:
             - NONE
             - PHYSICAL
             - LOGICAL
+          default: NONE
           description: |
             Recursion may be set to physical (don't follow symlinks) or
             logical (follow symlinks), or none (don't recurse).
