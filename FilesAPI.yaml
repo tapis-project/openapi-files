@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Tapis Files API
   description: The Tapis Files API provides for management of file resources on Tapis systems
-  version: '1.2.7'
+  version: '1.2.9'
   termsOfService: "https://tapis-project.org"
   contact:
     name: "Files API - CICSupport"
@@ -547,6 +547,131 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NativeLinuxOpResultResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        '401':
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        '403':
+          description: Permission Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+
+  /v3/files/utils/linux/facl/{systemId}/{path}:
+    get:
+      tags:
+        - File Operations
+      description: |
+        Get file ACLs for files or directories.
+      operationId: getFacl
+      parameters:
+        - name: systemId
+          in: path
+          description: System ID
+          required: true
+          schema:
+            type: string
+          example: system123
+        - name: path
+          in: path
+          description: Path relative to the system *rootDir*
+          required: true
+          schema:
+            type: string
+          example: /directoryA/directoryB/
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NativeLinuxGetFaclResponse'
+        '401':
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        '403':
+          description: Permission Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+    post:
+      tags:
+        - File Operations
+      description: |
+        Set file ACLs for files or directories.
+
+        This can be used for a single file or directory, or can be recursive.  If recursion is
+        used, it can be made to follow symlinks, or not follow symlinks.
+
+        The operations support adding or removing Acl Entries as well as removing all acls or all
+        default acls
+      operationId: setFacl
+      parameters:
+        - name: systemId
+          in: path
+          required: true
+          description: System ID
+          schema:
+            type: string
+          example: system123
+        - name: path
+          in: path
+          description: Path relative to the system *rootDir*
+          required: true
+          schema:
+            type: string
+          example: /directoryA/directoryB/
+      requestBody:
+        required: true
+        description: A JSON object specifying updated sharing information.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NativeLinuxSetFaclRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NativeLinuxSetFaclResponse'
         '400':
           description: Bad Request
           content:
@@ -1227,6 +1352,18 @@ components:
           type: boolean
         link:
           type: boolean
+    # --- AclEntryInfo -----------------------------------------------------------------
+    AclEntryInfo:
+      type: object
+      properties:
+        defaultAcl:
+          type: boolean
+        type:
+          type: string
+        principal:
+          type: string
+        permissions:
+          type: string
     FileListingResponse:
       type: object
       properties:
@@ -1528,6 +1665,39 @@ components:
         argument:
           type: string
           description: Argument for native linux operation
+    NativeLinuxSetFaclRequest:
+      required:
+        - operation
+        - aclString
+      type: object
+      properties:
+        operation: 
+          type: string
+          enum:
+            - ADD
+            - REMOVE
+            - REMOVE_DEFAULT
+            - REMOVE_ALL
+        recursionMethod:
+          type: string
+          enum:
+            - NONE
+            - PHYSICAL
+            - LOGICAL
+          default: NONE
+          description: |
+            Recursion may be set to physical (don't follow symlinks) or
+            logical (follow symlinks), or none (don't recurse).
+        aclString:
+          type: string
+          description: |
+            specifies the actual acl string to set.  Multiple acls may be separated by 
+            commas.
+            Examples - user:myuser:rwx,group 
+                       group:mygroup:rw 
+                       user:myuser:rwx,group,group:mygroup:rw 
+
+      
     # -------------------------------------------------------------------------
     # --- Response objects ----------------------------------------------------
     # -------------------------------------------------------------------------
@@ -1636,6 +1806,46 @@ components:
           type: string
         stdErr:
           type: string
+    NativeLinuxSetFaclResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        result:
+          $ref: '#/components/schemas/NativeLinuxSetFaclResult'
+        version:
+          type: string
+        metadata:
+          type: object
+    NativeLinuxSetFaclResult:
+      type: object
+      properties:
+        command:
+          type: string
+        exitCode:
+          type: integer
+          format: int32
+        stdOut:
+          type: string
+        stdErr:
+          type: string
+    NativeLinuxGetFaclResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        result:
+          items:
+            $ref: '#/components/schemas/AclEntryInfo'
+        version:
+          type: string
+        metadata:
+          type: object
+        
     FilePermissionResponse:
       type: object
       properties:
