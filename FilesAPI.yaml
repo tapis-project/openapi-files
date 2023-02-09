@@ -85,7 +85,7 @@ paths:
         '503':
           description: Service unavailable.
 
-  # --- Paths for /files/ops -----------------------------------------------------
+  # --- Paths for /files/ops --------------------------------------- --------------
   /v3/files/ops/{systemId}/{path}:
     get:
       tags:
@@ -1284,6 +1284,8 @@ paths:
   '/v3/files/postits/{systemId}':
     post:
       summary: Create a PostIt
+      tags: 
+        - PostIts
       description: |
         Create a PostIt granting access to a file url.  The newly created 
         PostIt can be redeemed by anyone without further authorization.
@@ -1308,16 +1310,106 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PostItResponse'
-#    patch:
-#    delete:
-
-#  '/v3/files/postits':
-#    get:
-
-#  '/v3/files/postits/{systemId}/{uuid}':
-#    get:
-
-#  '/v3/files/postits/redeem/{uuid}':
+  '/v3/files/postits':
+    get:
+      summary: List PostIts.
+      tags: 
+        - PostIts
+      description: Get a list of all PostIts owned by the current user. 
+      operationId: listPostIts
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostItListResponse'    
+  '/v3/files/postits/{postitId}':
+    get:
+      summary: Get PostIt.
+      tags: 
+        - PostIts
+      description: Get a single PostIt.  This does not redeem the PostIt. 
+      operationId: getPostIt
+      parameters:
+        - name: postitId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostItResponse'
+    patch:
+      summary: Modify a PostIt
+      tags: 
+        - PostIts
+      description: |
+        Update selected fields of a PostIt. 
+      operationId: updatePostIt
+      parameters:
+        - name: postitId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        description: A JSON document describing the PostIt to be created.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePostItRequest'
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostItResponse'          
+    delete:
+      summary: Delete a PostIt
+      tags: 
+        - PostIts
+      description: Delete a PostIt. 
+      operationId: deletePostIt
+      parameters:
+        - name: postitId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+  '/v3/files/postits/redeem/{postitId}':
+    get:
+      summary: Redeem PostIt.
+      tags: 
+        - PostIts
+      description: Redeem a PostIt.  This will return the file that is pointed to by the PostIt. 
+      operationId: redeemPostIt
+      parameters:
+        - name: postitId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success.
 
 # ------------------------------------------------------------------------------
 # --- Components ---------------------------------------------------------------
@@ -1612,31 +1704,42 @@ components:
         postitId:
           type: string
           format: uuid
+          description: The unique ID of the PostIt.
         tenantId:
           type: string
+          description: the tenant that tthe PostIt belongs to.
         systemId:
           type: string
+          description: The ID of the system where the file pointed to by the PostIt resides.
         path:
           type: string
+          description: Path relative to the system *rootDir*
         allowedUses:
           type: integer
           format: int32
+          description: The number of times the PostIt may be redeemed.  This number minus *uses* is the number of uses remaining.
         uses:
           type: integer
           format: int32
+          description: The number of times the PostIt has already been retrieved.
         owner:
           type: string
+          description: The owner of the PostIt.
         redeemUrl:
           type: string
+          description: The url to use to retrieve the file pointed to by the PostIt.
         expiration:
           type: string
           format: date-time
+          description: The expiration date/time of the PostIt.
         created:
           type: string
           format: date-time
+          description: Creation timestamp in UTC
         updated:
           type: string
           format: date-time
+          description: Last update timestamp in UTC
     # --- String types with constraints ------------------------------------
     IdString:
       type: string
@@ -1775,12 +1878,33 @@ components:
       properties:
         path:
           type: string
+          description: Path relative to the system *rootDir*
         allowedUses:
           type: integer
           format: int32
+          description: Number of times that the new PostIt can be redeemed.
         expiration:
           type: string
           format: date-time
+          description: Expiration date of the PostIt.
+        unlimited:
+          type: boolean
+          description: If set to true, this PostIt will have unlimited uses and not expire.
+
+    UpdatePostItRequest:
+      type: object
+      properties:
+        allowedUses:
+          type: integer
+          format: int32
+          description: Number of times that the new PostIt can be redeemed.
+        expiration:
+          type: string
+          format: date-time
+          description: Expiration date of the PostIt.
+        unlimited:
+          type: boolean
+          description: If set to true, this PostIt will have unlimited uses and not expire.
 
       
     # -------------------------------------------------------------------------
