@@ -1281,7 +1281,7 @@ paths:
                 $ref: '#/components/schemas/RespBasic'
 
   # --- Paths for PostIts  -------------------------------------------------------
-  '/v3/files/postits/{systemId}':
+  '/v3/files/postits/{systemId}/{path}':
     post:
       summary: Create a PostIt
       tags: 
@@ -1292,10 +1292,18 @@ paths:
       operationId: createPostIt
       parameters:
         - name: systemId
+          description: The name of the system to create the PostIt for.
           in: path
           required: true
           schema:
             $ref: '#/components/schemas/IdString'
+        - name: path
+          in: path
+          required: true
+          description: Path relative to the system *rootDir*
+          example: /DirectoryA/DirectoryB/file.txt
+          schema: 
+            type: string
       requestBody:
         required: true
         description: A JSON document describing the PostIt to be created.
@@ -1548,7 +1556,7 @@ paths:
       summary: Redeem PostIt.
       tags: 
         - PostIts
-      description: Redeem a PostIt.  This will return the file that is pointed to by the PostIt. 
+      description: Redeem a PostIt.  This will return the file that is pointed to by the PostIt.  No authentication is required.
       operationId: redeemPostIt
       parameters:
         - name: postitId
