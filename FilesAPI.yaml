@@ -1287,8 +1287,10 @@ paths:
       tags: 
         - PostIts
       description: |
-        Create a PostIt granting access to a file url.  The newly created 
-        PostIt can be redeemed by anyone without further authorization.
+        Create a PostIt.  The PostIt will grant access to a file url.
+        The newly created PostIt can be redeemed by anyone without 
+        further authorization.  This will nearly identical to calling
+        the files service getContents endpoint.
       operationId: createPostIt
       parameters:
         - name: systemId
@@ -1459,7 +1461,7 @@ paths:
             format: uuid
       requestBody:
         required: true
-        description: A JSON document describing the PostIt to be created.
+        description: A JSON document describing the PostIt to be updated.
         content:
           application/json:
             schema:
@@ -1887,12 +1889,15 @@ components:
           type: string
           format: uuid
           description: The unique ID of the PostIt.
-        tenantId:
-          type: string
-          description: the tenant that tthe PostIt belongs to.
         systemId:
           type: string
           description: The ID of the system where the file pointed to by the PostIt resides.
+        owner:
+          type: string
+          description: The owner of the PostIt.
+        tenantId:
+          type: string
+          description: the tenant that tthe PostIt belongs to.
         path:
           type: string
           description: Path relative to the system *rootDir*
@@ -1900,13 +1905,17 @@ components:
           type: integer
           format: int32
           description: The number of times the PostIt may be redeemed.  This number minus *uses* is the number of uses remaining.
-        uses:
+        timesUsed:
           type: integer
           format: int32
           description: The number of times the PostIt has already been retrieved.
-        owner:
+        jwtUser:
           type: string
-          description: The owner of the PostIt.
+          description: Authenticated user from the JWT (may be different than OBO user).
+        jwtTenantId:
+          type: string
+          description: Tenant of authenticated user from the JWT (may be different than OBO user's tenant).
+
         redeemUrl:
           type: string
           description: The url to use to retrieve the file pointed to by the PostIt.
@@ -2064,14 +2073,19 @@ components:
         allowedUses:
           type: integer
           format: int32
-          description: Number of times that the new PostIt can be redeemed.
-        expiration:
+          description: | 
+            Number of times that the new PostIt can be redeemed. The
+            default is one use.  Setting the value to -1 (negative one)
+            will allow the PostIt to be redeemed an unlimited number of
+            times.
+          default: 1
+        expirationSeconds:
           type: string
-          format: date-time
-          description: Expiration date of the PostIt.
-        unlimited:
-          type: boolean
-          description: If set to true, this PostIt will have unlimited uses and not expire.
+          format: int32
+          description: | 
+            Number of seconds until the PostIt expires.  
+            Default is 30 days.
+          default: 2592000
 
     UpdatePostItRequest:
       type: object
