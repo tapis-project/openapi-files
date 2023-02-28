@@ -1522,7 +1522,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespBasic'
+                $ref: '#/components/schemas/RespChangeCount'
+
         '400':
           description: Bad Request
           content:
@@ -2158,6 +2159,25 @@ components:
           type: string
         metadata:
           type: object
+    RespChangeCount:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        result:
+          $ref: '#/components/schemas/ResultChangeCount'
+        metadata:
+          type: object
+    ResultChangeCount:
+      type: object
+      properties:
+        changes:
+          type: integer
+          format: int32
     RespFileList:
       type: object
       properties:
