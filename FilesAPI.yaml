@@ -2116,9 +2116,6 @@ components:
     CreatePostItRequest:
       type: object
       properties:
-        path:
-          type: string
-          description: Path relative to the system *rootDir*
         allowedUses:
           type: integer
           format: int32
