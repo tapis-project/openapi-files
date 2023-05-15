@@ -1682,7 +1682,7 @@ components:
         mimeType:
           type: string
         type:
-          type: string
+          $ref: '#/components/schemas/FileTypeEnum'
         owner:
           type: string
         group:
@@ -2463,4 +2463,12 @@ components:
       enum:
         - OWNED
         - ALL
+    FileTypeEnum:
+      type: string
+      enum:
+        - File
+        - Dir
+        - symbolicLink
+        - other
+        - unknown
 
