@@ -2466,8 +2466,8 @@ components:
     FileTypeEnum:
       type: string
       enum:
-        - File
-        - Dir
+        - file
+        - dir
         - symbolicLink
         - other
         - unknown
