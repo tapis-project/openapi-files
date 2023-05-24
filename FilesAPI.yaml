@@ -2468,7 +2468,7 @@ components:
       enum:
         - file
         - dir
-        - symbolicLink
+        - symbolic_link
         - other
         - unknown
 
