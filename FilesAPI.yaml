@@ -397,6 +397,8 @@ paths:
         Certain services may use the query parameter *sharedCtx* to indicate that the request is in a shared
         context. *sharedCtx* must be set to the share grantor.
         Tapis will include the share grantor as part of authorization checks.
+
+        If the path already exists as a directory, no error will be returned.
       operationId: mkdir
       parameters:
         - name: systemId
@@ -2136,7 +2138,7 @@ components:
             times.
           default: 1
         validSeconds:
-          type: string
+          type: integer
           format: int32
           description: | 
             Number of seconds until the PostIt expires.  
