@@ -1756,6 +1756,10 @@ components:
             $ref: '#/components/schemas/FileInfo'
         version:
           type: string
+        commit:
+          type: string
+        build:
+          type: string
         metadata:
           type: object
     # --- FilePermission -----------------------------------------------------------
@@ -2173,6 +2177,10 @@ components:
           type: string
         version:
           type: string
+        commit:
+          type: string
+        build:
+          type: string
         result:
           type: object
         metadata:
@@ -2188,6 +2196,10 @@ components:
           type: string
         version:
           type: string
+        commit:
+          type: string
+        build:
+          type: string
         metadata:
           type: object
     StringResponse:
@@ -2200,6 +2212,10 @@ components:
         result:
           type: string
         version:
+          type: string
+        commit:
+          type: string
+        build:
           type: string
         metadata:
           type: object
@@ -2214,6 +2230,10 @@ components:
           type: string
         version:
           type: string
+        commit:
+          type: string
+        build:
+          type: string
         metadata:
           type: object
     RespChangeCount:
@@ -2224,6 +2244,10 @@ components:
         message:
           type: string
         version:
+          type: string
+        commit:
+          type: string
+        build:
           type: string
         result:
           $ref: '#/components/schemas/ResultChangeCount'
@@ -2249,6 +2273,10 @@ components:
             $ref: '#/components/schemas/FileInfo'
         version:
           type: string
+        commit:
+          type: string
+        build:
+          type: string
         metadata:
           type: object
     FileStatInfoResponse:
@@ -2262,6 +2290,10 @@ components:
           $ref: '#/components/schemas/FileStatInfo'
         version:
           type: string
+        commit:
+          type: string
+        build:
+          type: string
         metadata:
           type: object
     NativeLinuxOpResponse:
@@ -2274,6 +2306,10 @@ components:
         result:
           $ref: '#/components/schemas/NativeLinuxOpResultResponse'
         version:
+          type: string
+        commit:
+          type: string
+        build:
           type: string
         metadata:
           type: object
@@ -2299,6 +2335,10 @@ components:
         result:
           $ref: '#/components/schemas/NativeLinuxSetFaclResult'
         version:
+          type: string
+        commit:
+          type: string
+        build:
           type: string
         metadata:
           type: object
@@ -2326,6 +2366,10 @@ components:
             $ref: '#/components/schemas/AclEntryInfo'
         version:
           type: string
+        commit:
+          type: string
+        build:
+          type: string
         metadata:
           type: object
         
@@ -2340,6 +2384,10 @@ components:
           $ref: '#/components/schemas/FilePermission'
         version:
           type: string
+        commit:
+          type: string
+        build:
+          type: string
         metadata:
           type: object
     RespShareInfo:
@@ -2350,6 +2398,10 @@ components:
         message:
           type: string
         version:
+          type: string
+        commit:
+          type: string
+        build:
           type: string
         result:
           $ref: '#/components/schemas/ResultShareInfo'
@@ -2393,6 +2445,10 @@ components:
           $ref: '#/components/schemas/TransferTask'
         version:
           type: string
+        commit:
+          type: string
+        build:
+          type: string
         metadata:
           type: object
     TransferTaskListResponse:
@@ -2408,6 +2464,10 @@ components:
             $ref: '#/components/schemas/TransferTask'
         version:
           type: string
+        commit:
+          type: string
+        build:
+          type: string
         metadata:
           type: object
     PostItResponse:
@@ -2420,6 +2480,10 @@ components:
         result:
           $ref: '#/components/schemas/PostIt'
         version:
+          type: string
+        commit:
+          type: string
+        build:
           type: string
         metadata:
           type: object
@@ -2435,6 +2499,10 @@ components:
           items:
             $ref: '#/components/schemas/PostIt'
         version:
+          type: string
+        commit:
+          type: string
+        build:
           type: string
         metadata:
           type: object
