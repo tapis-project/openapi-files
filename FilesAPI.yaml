@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Tapis Files API
   description: The Tapis Files API provides for management of file resources on Tapis systems
-  version: '1.4.0'
+  version: '1.4.1'
   termsOfService: "https://tapis-project.org"
   contact:
     name: "Files API - CICSupport"
@@ -49,7 +49,8 @@ tags:
     description: |
       In addition to fine grained permissions support, Tapis also supports a higher level approach to granting access.
       This approach is known simply as *sharing*. The sharing API allows you to share a path with a set of users as
-      well as share publicly with all users in a tenant. Sharing a path grants users READ or MODIFY access to the path.
+      well as share publicly with all users in a tenant. Sharing a path grants users READ access to the path or, in the
+      context of running a job, it grants users READ and MODIFY access to the path.
       
       Please note that the underlying host associated with a system typically also has it's own access controls.
 
@@ -1018,6 +1019,8 @@ paths:
       description: |
         Retrieve all sharing information for a path on a system. This includes all users with whom the path
         has been shared and whether or not the path has been made publicly available.
+        Sharing a path grants users READ access to the path or, in the context of running a job, it grants users READ
+        and MODIFY access to the path.
       operationId: getShareInfo
       parameters:
         - name: systemId
@@ -1069,6 +1072,8 @@ paths:
         Create or update sharing information for a path on a system. The path will be shared with the list of users
         provided in the request body. Requester must be owner of the system. For LINUX systems path sharing is
         hierarchical.
+        Sharing a path grants users READ access to the path or, in the context of running a job, it grants users READ
+        and MODIFY access to the path.
       operationId: sharePath
       parameters:
         - name: systemId
@@ -1121,6 +1126,8 @@ paths:
       summary: Share a path on a system publicly with all users in the tenant.
       description: |
         Share a path on a system with all users in the tenant. Requester must be owner of the system.
+        Sharing a path grants users READ access to the path or, in the context of running a job, it grants users READ
+        and MODIFY access to the path.
       operationId: sharePathPublic
       parameters:
         - name: systemId
