@@ -2079,10 +2079,6 @@ components:
           type: boolean
           default: false
           description: Allow the full transfer to succeed even if this element fails.
-        sourcePattern:
-          type: string
-          default: null
-          description: Pattern describing which files are copied from the source directory. (Services Only)
         transferType:
           type: string
           enum:
