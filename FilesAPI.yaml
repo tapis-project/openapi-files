@@ -2086,6 +2086,15 @@ components:
           type: boolean
           default: false
           description: Allow the full transfer to succeed even if this element fails.
+        transferType:
+          type: string
+          enum:
+          - LOCAL_MOVE
+          default: null
+          description: |
+            If this value is set, both the source and target MUST be on the same tapis system.  
+            The directory or files matching the sourcePattern within the directory will be moved 
+            to the target directory rather than copied. (Services Only)
         srcSharedCtx:
           $ref: '#/components/schemas/UserNameString'
         destSharedCtx:
