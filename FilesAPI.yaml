@@ -131,7 +131,7 @@ paths:
           example: directoryA/directoryB/
         - name: regex
           in: query
-          description: Unix style regular expression that filters the results by filename.  The regex is evaluated against the filename portion of the path only, and not the entire path.  For example to match a file that begins with myFile (such as myFile23.txt) you could supply the regex "myFile.*".  To match files of a given extension (for example end with .txt), you could supply a regex value of ".*\.txt$".  Recursive listings filter only against filnames also - so even if the directory doesn't match the regex, files in the directory can be returned.  See documentation for Java regex for the exact details of how Java handles regular expressions.
+          description: Unix style regular expression that filters the results by filename.  The regex is evaluated against the filename portion of the path only, and not the entire path.  For example to match a file that begins with myFile (such as myFile23.txt) you could supply the regex "myFile.*".  To match files of a given extension (for example end with .txt), you could supply a regex value of ".*\.txt$".  Recursive listings filter only against filnames also - so even if the directory doesn't match the regex, files in the directory can be returned.  See documentation for Java regex for the exact details of how Java handles regular expressions.  NOTE:  this is only supported for linux systems at present.
           schema:
             type: string
         - name: limit
