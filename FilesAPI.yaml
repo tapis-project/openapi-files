@@ -129,9 +129,18 @@ paths:
           schema:
             type: string
           example: directoryA/directoryB/
-        - name: regex
+        - name: pattern
           in: query
-          description: Unix style regular expression that filters the results by filename. The regex is evaluated against the filename portion of the path only, and not the entire path.  For example to match a file that begins with myFile (such as myFile23.txt) you could supply the regex "myFile.*".  To match files of a given extension (for example end with .txt), you could supply a regex value of ".*\.txt$".  Recursive listings filter only against filnames also - so even if the directory doesn't match the regex, files in the directory can be returned.  See documentation for Java regex for the exact details of how Java handles regular expressions.  NOTE - this is only supported for linux systems at present.
+          description: |
+            Wildcard pattern (glob) or regular expression to filter the results returned by this request.  Regular 
+            expressions must have the prefix "regex:".  Only files where the name matches the pattern will be 
+            returned.  The pattern is evaluated against the filename portion of the path only, and not the entire 
+            path.  For example to match a file that begins with "myFile" you could use a pattern of "myFile*" or 
+            "regex:myFile.*".  Or, to match files that end with .txt, you could supply a pattern of "*.txt" or 
+            "regex:.*\.txt$".  Recursive listings filter only against filnames also - so even if the directory 
+            doesn't match the pattern, files in the directory can be returned.  See documentation for Java regex 
+            for the exact details of how Java handles regular expressions.  NOTE - this is only supported for linux 
+            systems at present.
           schema:
             type: string
         - name: limit
@@ -2094,12 +2103,17 @@ components:
         transferType:
           type: string
           enum:
-          - LOCAL_MOVE
+          - TRANSFER
+          - SERVICE_MOVE_DIRECTORY_CONTENTS,
+          - SERVICE_MOVE_FILE_OR_DIRECTORY
           default: null
           description: |
-            If this value is set, both the source and target MUST be on the same tapis system.  
-            The directory or files matching the sourcePattern within the directory will be moved 
-            to the target directory rather than copied. (Services Only)
+            If this value is set to anything other than TRANSFER, both the source and target MUST,
+            be on the same tapis system.  If the value is SERVICE_MOVE_DIRECTORY_CONTENTS, the 
+            source URI is expected to be a directory, and the contents of that directory will be
+            transfered to the target URI.  The target must be an existing directory or the operation
+            will fail.  If the value is SERVICE_MOVE_FILE_OR_DIRECTORY the file or directory will
+            be moved to the target URI.  If the target already exists, it will be overwritten.
         srcSharedCtx:
           $ref: '#/components/schemas/UserNameString'
         destSharedCtx:
