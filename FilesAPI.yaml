@@ -2104,7 +2104,7 @@ components:
           type: string
           enum:
           - TRANSFER
-          - SERVICE_MOVE_DIRECTORY_CONTENTS,
+          - SERVICE_MOVE_DIRECTORY_CONTENTS
           - SERVICE_MOVE_FILE_OR_DIRECTORY
           default: null
           description: |
