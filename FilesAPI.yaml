@@ -859,7 +859,28 @@ paths:
       tags:
         - Transfers
       description: |
-        Retrieve a transfer task.
+        Retrieve a transfer task. By default only the top level attributes are included in the result.
+        The top level attributes are: tenantId, uuid, status, username, tag, created, startTime, endTime, errorMessage.
+        The query parameter *includeSummary* may be set to *true* to also include totalTransfers, completeTransfers
+        and estimatedTotalBytes. The default for *includeSummary* is *false*.
+
+        Certain services may use the query parameter *impersonationId* to be used in place of the requesting
+        Tapis user. Tapis will use this user Id when performing authorization and resolving the *effectiveUserId*
+        for the system.
+
+        TransferTask attributes:
+          - *tenantId*: tenant associated with the transfer task.
+          - *uuid*: Unique id of the transfer task.
+          - *tag*: Optional tag provided by user who requested the transfer.
+          - *username*: Tapis user who requested the transfer. 
+          - *status*: Status of the task. ACCEPTED, STAGED, IN_PROGRESS, COMPLETED, CANCELLED, FAILED, FAILED_OPT, PAUSED
+          - *created*: Timestamp 
+          - *startTime*: Timestamp
+          - *endTime*: Timestamp
+          - *errorMessage*: Error message.
+          - *totalTransfers*: Total number of child transfers requested.
+          - *completeTransfers*: Number of child transfers completed.
+          - *estimatedTotalBytes*: Estimate of total number of bytes transferred by all child tasks.
       operationId: getTransferTask
       parameters:
         - name: transferTaskId
@@ -869,6 +890,17 @@ paths:
           schema:
             type: string
           example: 6491c2a5-acb2-40ef-b2c0-bc1fc4cd7e6c
+        - name: impersonationId
+          in: query
+          description: Restricted. Only certain services may impersonate a Tapis user.
+          schema:
+            type: string
+        - name: includeSummary
+          in: query
+          description: Indicates if summary information such as *estimatedTotalBytes* should be included.
+          default: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: OK
@@ -902,7 +934,14 @@ paths:
       tags:
         - Transfers
       description: |
-        Retrieve detailed information for a transfer task.
+        Retrieve all information for a transfer task, including totalTransfers, completedTransfers, estimatedTotalBytes,
+        list of parents and list of children for each parent.
+
+        Certain services may use the query parameter *impersonationId* to be used in place of the requesting
+        Tapis user. Tapis will use this user Id when performing authorization and resolving the *effectiveUserId*
+        for the system.
+
+        For more information on transfer task attributes please see *getTransferTask*.
       operationId: getTransferTaskDetails
       parameters:
         - name: transferTaskId
