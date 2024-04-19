@@ -873,11 +873,11 @@ paths:
           - *uuid*: Unique id of the transfer task.
           - *tag*: Optional tag provided by user who requested the transfer.
           - *username*: Tapis user who requested the transfer. 
-          - *status*: Status of the task. ACCEPTED, STAGED, IN_PROGRESS, COMPLETED, CANCELLED, FAILED, FAILED_OPT, PAUSED
+          - *status*: ACCEPTED, STAGED, IN_PROGRESS, COMPLETED, CANCELLED, FAILED, FAILED_OPT, PAUSED
           - *created*: Timestamp 
           - *startTime*: Timestamp
           - *endTime*: Timestamp
-          - *errorMessage*: Error message.
+          - *errorMessage*: Error message, if applicable.
           - *totalTransfers*: Total number of child transfers requested.
           - *completeTransfers*: Number of child transfers completed.
           - *estimatedTotalBytes*: Estimate of total number of bytes transferred by all child tasks.
