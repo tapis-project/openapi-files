@@ -21,8 +21,6 @@ servers:
   - url: 'https://dev.develop.tapis.io/'
     description: Development environment
     variables: {}
-security:
-  - TapisJWT: []
 tags:
   - name: General
     description: General service health and readiness
@@ -114,6 +112,8 @@ paths:
         context. *sharedCtx* must be set to the share grantor.
         Tapis will include the share grantor as part of authorization checks.
       operationId: listFiles
+      security:
+        - TapisJWT: []
       parameters:
         - name: systemId
           in: path
@@ -220,6 +220,8 @@ paths:
         Move or copy a file, directory or object on {systemID} at path {path}.
         Not all operations supported for all system types.
       operationId: moveCopy
+      security:
+        - TapisJWT: []
       parameters:
         - name: systemId
           in: path
@@ -281,6 +283,8 @@ paths:
       description: |
         The file or object will be uploaded at the {path} independent of the original name.
       operationId: insert
+      security:
+        - TapisJWT: []
       parameters:
         - name: systemId
           in: path
@@ -351,6 +355,8 @@ paths:
         the prefix *rootDir* will be deleted. So if the *rootDir* is also the empty string, then all objects in the bucket
         will be removed.
       operationId: delete
+      security:
+        - TapisJWT: []
       parameters:
         - name: systemId
           in: path
@@ -415,6 +421,8 @@ paths:
 
         If the path already exists as a directory, no error will be returned.
       operationId: mkdir
+      security:
+        - TapisJWT: []
       parameters:
         - name: systemId
           in: path
@@ -472,6 +480,8 @@ paths:
       description: |
         Get native stat information for a file or directory for a system of type LINUX.
       operationId: getStatInfo
+      security:
+        - TapisJWT: []
       parameters:
         - name: systemId
           in: path
@@ -537,6 +547,8 @@ paths:
       description: |
         Run a native operation on a path. Operations are chmod, chown or chgrp. For a system of type LINUX.
       operationId: runLinuxNativeOp
+      security:
+        - TapisJWT: []
       parameters:
         - name: systemId
           in: path
@@ -607,6 +619,8 @@ paths:
       description: |
         Get file ACLs for files or directories for a system of type LINUX.
       operationId: getFacl
+      security:
+        - TapisJWT: []
       parameters:
         - name: systemId
           in: path
@@ -665,6 +679,8 @@ paths:
         The operations support adding or removing Acl Entries as well as removing all acls or all
         default acls
       operationId: setFacl
+      security:
+        - TapisJWT: []
       parameters:
         - name: systemId
           in: path
@@ -745,6 +761,8 @@ paths:
         context. *sharedCtx* must be set to the share grantor.
         Tapis will include the share grantor as part of authorization checks.
       operationId: getContents
+      security:
+        - TapisJWT: []
       parameters:
         - name: systemId
           in: path
@@ -809,6 +827,8 @@ paths:
       description: |
         Get a list of transfer tasks starting with the most recent.
       operationId: getRecentTransferTasks
+      security:
+        - TapisJWT: []
       parameters:
         - name: limit
           in: query
@@ -841,6 +861,8 @@ paths:
         Note that not all combinations of system types are supported. For example, transfers involving a GLOBUS
         system must be GLOBUS to GLOBUS.
       operationId: createTransferTask
+      security:
+        - TapisJWT: []
       requestBody:
         content:
           application/json:
@@ -882,6 +904,8 @@ paths:
           - *completeTransfers*: Number of child transfers completed.
           - *estimatedTotalBytes*: Estimate of total number of bytes transferred by all child tasks.
       operationId: getTransferTask
+      security:
+        - TapisJWT: []
       parameters:
         - name: transferTaskId
           in: path
@@ -914,6 +938,8 @@ paths:
       description: |
         Request that a transfer task be cancelled.
       operationId: cancelTransferTask
+      security:
+        - TapisJWT: []
       parameters:
         - name: transferTaskId
           in: path
@@ -943,6 +969,8 @@ paths:
 
         For more information on transfer task attributes please see *getTransferTask*.
       operationId: getTransferTaskDetails
+      security:
+        - TapisJWT: []
       parameters:
         - name: transferTaskId
           in: path
@@ -973,6 +1001,8 @@ paths:
         Get the Tapis permissions for a user for the system and path.
         If no user specified then permissions are retrieved for the user making the request.
       operationId: getPermissions
+      security:
+        - TapisJWT: []
       parameters:
         - name: systemId
           in: path
@@ -1004,6 +1034,8 @@ paths:
       description: |
         Grant access to a path for a user. Access may be READ or MODIFY. MODIFY implies READ.
       operationId: grantPermissions
+      security:
+        - TapisJWT: []
       parameters:
         - name: systemId
           in: path
@@ -1036,6 +1068,8 @@ paths:
       description: |
         Revoke access for a user for the system and path. All access is revoked.
       operationId: deletePermissions
+      security:
+        - TapisJWT: []
       parameters:
         - name: systemId
           in: path
@@ -1075,6 +1109,8 @@ paths:
         Sharing a path grants users READ access to the path or, in the context of running a job, it grants users READ
         and MODIFY access to the path.
       operationId: getShareInfo
+      security:
+        - TapisJWT: []
       parameters:
         - name: systemId
           in: path
@@ -1128,6 +1164,8 @@ paths:
         Sharing a path grants users READ access to the path or, in the context of running a job, it grants users READ
         and MODIFY access to the path.
       operationId: sharePath
+      security:
+        - TapisJWT: []
       parameters:
         - name: systemId
           in: path
@@ -1182,6 +1220,8 @@ paths:
         Sharing a path grants users READ access to the path or, in the context of running a job, it grants users READ
         and MODIFY access to the path.
       operationId: sharePathPublic
+      security:
+        - TapisJWT: []
       parameters:
         - name: systemId
           in: path
@@ -1222,6 +1262,8 @@ paths:
         Create or update sharing information for a path on a system. The path will be unshared with the list of users
         provided in the request body. Requester must be owner of the system.
       operationId: unSharePath
+      security:
+        - TapisJWT: []
       parameters:
         - name: systemId
           in: path
@@ -1274,6 +1316,8 @@ paths:
       description: |
         Remove public sharing for a path on a system. Requester must be owner of the system.
       operationId: unSharePathPublic
+      security:
+        - TapisJWT: []
       parameters:
         - name: systemId
           in: path
@@ -1313,6 +1357,8 @@ paths:
       description: |
         Remove all shares for a path on a system including public access. This will also be done for all sub-paths.
       operationId: unSharePathAll
+      security:
+        - TapisJWT: []
       parameters:
         - name: systemId
           in: path
@@ -1362,6 +1408,8 @@ paths:
         further authorization.  This will nearly identical to calling
         the files service getContents endpoint.
       operationId: createPostIt
+      security:
+        - TapisJWT: []
       parameters:
         - name: systemId
           description: The name of the system to create the PostIt for.
@@ -1432,6 +1480,8 @@ paths:
           - *OWNED* Include only items owned by requester (Default)
           - *ALL* Include all items requester is authorized to view. (Tenant admins can view all PostIts in their tenant).
       operationId: listPostIts
+      security:
+        - TapisJWT: []
       parameters:
         - name: listType
           in: query 
@@ -1509,6 +1559,8 @@ paths:
         - PostIts
       description: Get a single PostIt.  This does not redeem the PostIt. 
       operationId: getPostIt
+      security:
+        - TapisJWT: []
       parameters:
         - name: postitId
           in: path
@@ -1560,6 +1612,8 @@ paths:
       description: |
         Update selected fields of a PostIt. 
       operationId: updatePostIt
+      security:
+        - TapisJWT: []
       parameters:
         - name: postitId
           in: path
@@ -1617,6 +1671,8 @@ paths:
         - PostIts
       description: Delete a PostIt. 
       operationId: deletePostIt
+      security:
+        - TapisJWT: []
       parameters:
         - name: postitId
           in: path
@@ -1724,6 +1780,12 @@ paths:
 # --- Components ---------------------------------------------------------------
 # ------------------------------------------------------------------------------
 components:
+  securitySchemes:
+    TapisJWT:
+      type: apiKey
+      description: Tapis signed JWT token authentication
+      name: X-Tapis-Token
+      in: header
   schemas:
     # ------------------------------------------------------------------------------
     # --- Model objects ------------------------------------------------------------
