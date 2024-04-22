@@ -914,17 +914,16 @@ paths:
           schema:
             type: string
           example: 6491c2a5-acb2-40ef-b2c0-bc1fc4cd7e6c
+        - name: includeSummary
+          in: query
+          description: Indicates if summary information such as *estimatedTotalBytes* should be included.
+          schema:
+            type: boolean
         - name: impersonationId
           in: query
           description: Restricted. Only certain services may impersonate a Tapis user.
           schema:
             type: string
-        - name: includeSummary
-          in: query
-          description: Indicates if summary information such as *estimatedTotalBytes* should be included.
-          default: false
-          schema:
-            type: boolean
       responses:
         '200':
           description: OK
