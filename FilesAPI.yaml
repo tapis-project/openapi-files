@@ -1936,9 +1936,6 @@ components:
     TransferTask:
       type: object
       properties:
-        id:
-          type: integer
-          format: int32
         username:
           type: string
         tenantId:
@@ -1981,9 +1978,6 @@ components:
     TransferTaskParent:
       type: object
       properties:
-        id:
-          type: integer
-          format: int32
         tenantId:
           type: string
         username:
@@ -2026,9 +2020,6 @@ components:
     TransferTaskChild:
       type: object
       properties:
-        id:
-          type: integer
-          format: int32
         tenantId:
           type: string
         username:
