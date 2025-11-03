@@ -1000,6 +1000,45 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransferTaskResponse'
 
+  # --- Paths for /files/transfers/fastTransfer ----------------------------------
+  /v3/files/transfers/fastTransfer/{uuid}:
+    get:
+      tags:
+        - Archive transfers
+      description: |
+        Get the status of an archive transfer
+      operationId: getRecentTransferTasks
+      security:
+        - TapisJWT: []
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: includePaths
+          in: query
+          schema:
+            type: boolean
+            default: false
+        - name: includeTransferLog
+          in: query
+          schema:
+            type: boolean
+            default: false
+        - name: impersonationId
+          in: query
+          description: Restricted. Only certain services may impersonate a Tapis user.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArchiveTransferResponse'
+
   # --- Paths for /files/permissions ---------------------------------------------
   /v3/files/permissions/{systemId}/{path}:
     get:
@@ -2605,6 +2644,50 @@ components:
           type: string
         metadata:
           type: object
+
+    ArchiveTransferResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        uuid:
+          type: string
+        username:
+          type: string
+        tenantId:
+          type: string
+        created:
+          type: string
+          format: date-time
+        sourceBaseUrl:
+          type: string
+        destinationBaseUrl:
+          type: string
+        relativePaths:
+          type: array
+          items:
+            type: string
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        retriesRemaining:
+          type: string
+        nextRetry:
+          type: string
+          format: date-time
+        archiveBytesRead:
+          type: integer
+        fileBytesRead:
+          type: integer
+        errorMessage:
+          type: string
+        srcSharedCtxGrantor:
+          type: string
+        destSharedCtxGrantor:
+          type: string
     PostItResponse:
       type: object
       properties:
