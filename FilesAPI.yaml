@@ -1061,7 +1061,7 @@ paths:
         The relative paths can be either directories or files.  If they are directories, the entire
         contents of the director will be stored.  Symlinks are added, but they are not followed.  
 
-        Archive Types:
+        Archive Types
         - TAR Files are added to a tar archive stream on the source system, and un-archived on the 
               destination system. (only supported for ssh systems)
         - TAR_GZIP Exactly like "TAR" except that gzip compression is used. (only supported for ssh systems)
