@@ -1039,6 +1039,41 @@ paths:
               schema:
                 $ref: '#/components/schemas/ArchiveTransferResponse'
     post:
+      description: |
+        Request a "fast" or "archive" transfer.  Archive transfers will use "tar" to put files
+        on the sourrce system into an archive, and use tar to extract the archive on the destination 
+        system.  The result of the tar operation is sent directly over the network (there are no
+        temporary files created or anything like that).  Depending on the archive type specified,
+        this transfer could add compression, skip the un-archiving on the destination, or read
+        the source from an archive and un-archive them on the destination system.  Not all system
+        types are supported for all archive type options.  
+
+        The source base url will point to the root directory of the transfer on the source system, 
+        and the destination url will point to the root directory of the transfer on the destination 
+        system.  The url's are tapis urls.  For example - tapis://my-tapis-sys/source_files
+
+        The relativePaths attribute specified which paths to add to the archive.  In this way, you can 
+        select only certain paths within the directory, and not all paths.  The paths will be added
+        as relative paths (relative to the source base url), so that when they are extracted they can
+        be relative to the destination base url.  This would give the user the opportunity to change
+        what directory the files are stored in on the destination directory.
+
+        The relative paths can be either directories or files.  If they are directories, the entire
+        contents of the director will be stored.  Symlinks are added, but they are not followed.  
+
+        Archive Types:
+        - TAR Files are added to a tar archive stream on the source system, and un-archived on the 
+              destination system. (only supported for ssh systems)
+        - TAR_GZIP Exactly like "TAR" except that gzip compression is used. (only supported for ssh systems)
+        - TO_TAR_ARCHIVE  Files are added to a tar archive stream on the source system, however they are
+              *not*  un-archived on the destination system.  The archive file is written to the destination
+              system (source system must be ssh system)
+        - TO_GZIP_ARCHIVE Exactly like "TO_TAR_ARCHIVE" except that gzip compression is used. (source 
+              system must be ssh system)
+        - FROM_TAR_ARCHIVE The source must be an archive file, and files are un-archived on the 
+              destination system. (destination must be an ssh system) 
+        - FROM_GZIP_ARCHIVE Exactly like "FROM_TAR_ARCHIVE" except that the source must be a gzipped
+              tar file.  (destination must be an ssh system)
       tags:
         - Archive transfers
       description: |
@@ -1076,7 +1111,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespShareInfo'
+                $ref: '#/components/schemas/StringResponse'
   # --- Paths for /files/permissions ---------------------------------------------
   /v3/files/permissions/{systemId}/{path}:
     get:
