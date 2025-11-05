@@ -1062,6 +1062,8 @@ paths:
         contents of the director will be stored.  Symlinks are added, but they are not followed.  
 
         ### Archive Types
+        | Value                 | Description                                                                                       |
+        |-----------------------|---------------------------------------------------------------------------------------------------|
         | **TAR**               | Files are added to a tar archive stream on the source system, and un-archived on the              |
         |                       | destination system. (only supported for ssh systems)                                              |
         |                       |                                                                                                   |
