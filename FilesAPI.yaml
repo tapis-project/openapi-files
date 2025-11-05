@@ -1004,9 +1004,11 @@ paths:
   /v3/files/transfers/fastTransfer/{uuid}:
     get:
       tags:
-        - Archive transfers
+        - Archive transfers (Beta)
       description: |
-        Get the status of an archive transfer
+        Get the status of an archive transfer (Beta)
+      links: 
+        requestArchiveTransfer: #tag/Archive-transfers/operation/requestArchiveTransfer
       operationId: getArchiveTransfer
       security:
         - TapisJWT: []
@@ -1040,6 +1042,8 @@ paths:
                 $ref: '#/components/schemas/ArchiveTransferResponse'
     post:
       description: |
+        (Beta)
+
         Request a "fast" or "archive" transfer.  Archive transfers will use "tar" to put files
         on the sourrce system into an archive, and use tar to extract the archive on the destination 
         system.  The result of the tar operation is sent directly over the network (there are no
@@ -1071,7 +1075,7 @@ paths:
         | **FROM_TAR_ARCHIVE**  | The source must be an archive file, and files are un-archived on the destination system. (destination must be an ssh system) |
         | **FROM_GZIP_ARCHIVE** | Exactly like **FROM_TAR_ARCHIVE** except that the source must be a gzipped tar file.  (destination must be an ssh system) |
       tags:
-        - Archive transfers
+        - Archive transfers (Beta)
       operationId: requestArchiveTransfer
       security:
         - TapisJWT: []
@@ -1090,9 +1094,11 @@ paths:
                 $ref: '#/components/schemas/ArchiveTransferResponse'
     delete:
       tags:
-        - Archive transfers
+        - Archive transfers (Beta)
       description: |
-        Request to cancel an archive transfer
+        Request to cancel an archive transfer (Beta)
+      links: 
+        requestArchiveTransfer: #tag/Archive-transfers/operation/requestArchiveTransfer
       operationId: cancelArchiveTransfer
       security:
         - TapisJWT: []
