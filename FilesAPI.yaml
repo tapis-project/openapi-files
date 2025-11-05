@@ -1007,7 +1007,7 @@ paths:
         - Archive transfers
       description: |
         Get the status of an archive transfer
-      operationId: getRecentTransferTasks
+      operationId: getArchiveTransfer
       security:
         - TapisJWT: []
       parameters:
@@ -1038,7 +1038,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArchiveTransferResponse'
-
+    post:
+      tags:
+        - Archive transfers
+      description: |
+        Request an archive transfer
+      operationId: requestArchiveTransfer
+      security:
+        - TapisJWT: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArchiveTransferRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArchiveTransferResponse'
+    delete:
+      tags:
+        - cancel archive transfers
+      description: |
+        Request to cancel an archive transfer
+      operationId: cancelArchiveTransfer
+      security:
+        - TapisJWT: []
+      parameters:
+        - name: uuid
+          type: string
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespShareInfo'
   # --- Paths for /files/permissions ---------------------------------------------
   /v3/files/permissions/{systemId}/{path}:
     get:
@@ -2644,7 +2682,30 @@ components:
           type: string
         metadata:
           type: object
-
+    ArchiveTransferRequest:
+      type: object
+      properties:
+        sourceBaseUrl:
+          type: string
+        destinationBaseUrl:
+          type: string
+        relativePaths:
+          type: array
+          items:
+            type: string
+        archiveType:
+          type: string
+          enum:
+            - TAR
+            - TAR_GZIP
+            - TO_TAR_ARCHIVE
+            - TO_GZIP_ARCHIVE
+            - FROM_TAR_ARCHIVE
+            - FROM_GZIP_ARCHIVE
+        srcSharedCtxGrantor:
+          type: string
+        destSharedCtxGrantor:
+          type: string
     ArchiveTransferResponse:
       type: object
       properties:
