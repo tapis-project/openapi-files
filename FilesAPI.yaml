@@ -1061,7 +1061,7 @@ paths:
                 $ref: '#/components/schemas/ArchiveTransferResponse'
     delete:
       tags:
-        - cancel archive transfers
+        - Archive transfers
       description: |
         Request to cancel an archive transfer
       operationId: cancelArchiveTransfer
