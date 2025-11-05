@@ -1061,25 +1061,25 @@ paths:
         The relative paths can be either directories or files.  If they are directories, the entire
         contents of the director will be stored.  Symlinks are added, but they are not followed.  
 
-        # Archive Types
-        . **TAR** Files are added to a tar archive stream on the source system, and un-archived on the 
-              destination system. (only supported for ssh systems)
-
-        . **TAR_GZIP** Exactly like **TAR** except that gzip compression is used. (only supported for ssh systems)
-
-        . **TO_TAR_ARCHIVE**  Files are added to a tar archive stream on the source system, however they are
-              *not*  un-archived on the destination system.  The archive file is written to the destination
-              system (source system must be ssh system)
-
-        . **TO_GZIP_ARCHIVE** Exactly like **TO_TAR_ARCHIVE** except that gzip compression is used. (source 
-              system must be ssh system)
-
-        . **FROM_TAR_ARCHIVE** The source must be an archive file, and files are un-archived on the 
-              destination system. (destination must be an ssh system) 
-
-        . **FROM_GZIP_ARCHIVE** Exactly like **FROM_TAR_ARCHIVE** except that the source must be a gzipped
-              tar file.  (destination must be an ssh system)
-
+        ### Archive Types
+        | **TAR**               | Files are added to a tar archive stream on the source system, and un-archived on the              |
+        |                       | destination system. (only supported for ssh systems)                                              |
+        |                       |                                                                                                   |
+        | **TAR_GZIP**          | Exactly like **TAR** except that gzip compression is used. (only supported for ssh systems)       |
+        |                       |                                                                                                   |
+        | **TO_TAR_ARCHIVE**    | Files are added to a tar archive stream on the source system, however they are                    |
+        |                       | **not**  un-archived on the destination system.  The archive file is written to the destination   |
+        |                       | system (source system must be ssh system)                                                         |  
+        |                       |                                                                                                   |
+        | **TO_GZIP_ARCHIVE**   | Exactly like **TO_TAR_ARCHIVE** except that gzip compression is used. (source                     |
+        |                       | system must be ssh system)                                                                        |
+        |                       |                                                                                                   |
+        | **FROM_TAR_ARCHIVE**  | The source must be an archive file, and files are un-archived on the                              |
+        |                       | destination system. (destination must be an ssh system)                                           |
+        |                       |                                                                                                   |
+        | **FROM_GZIP_ARCHIVE** | Exactly like **FROM_TAR_ARCHIVE** except that the source must be a gzipped                        |
+        |                       | tar file.  (destination must be an ssh system)                                                    |
+        |                       |                                                                                                   |
       tags:
         - Archive transfers
       operationId: requestArchiveTransfer
