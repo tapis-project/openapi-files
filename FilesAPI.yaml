@@ -2707,6 +2707,22 @@ components:
         destSharedCtxGrantor:
           type: string
     ArchiveTransferResponse:
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        result:
+          $ref: '#/components/schemas/ArchiveTransferResult'
+        version:
+          type: string
+        commit:
+          type: string
+        build:
+          type: string
+        metadata:
+          type: object
+    ArchiveTransferResult:
       type: object
       properties:
         id:
