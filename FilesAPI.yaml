@@ -1007,8 +1007,6 @@ paths:
         - Archive transfers (Beta)
       description: |
         Get the status of an archive transfer (Beta)
-      links: 
-        requestArchiveTransfer: #tag/Archive-transfers/operation/requestArchiveTransfer
       operationId: getArchiveTransfer
       security:
         - TapisJWT: []
@@ -1097,8 +1095,6 @@ paths:
         - Archive transfers (Beta)
       description: |
         Request to cancel an archive transfer (Beta)
-      links: 
-        requestArchiveTransfer: #tag/Archive-transfers/operation/requestArchiveTransfer
       operationId: cancelArchiveTransfer
       security:
         - TapisJWT: []
