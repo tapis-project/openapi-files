@@ -1076,8 +1076,6 @@ paths:
               tar file.  (destination must be an ssh system)
       tags:
         - Archive transfers
-      description: |
-        Request an archive transfer
       operationId: requestArchiveTransfer
       security:
         - TapisJWT: []
