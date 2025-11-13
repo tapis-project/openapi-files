@@ -1038,12 +1038,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArchiveTransferResponse'
+    delete:
+      tags:
+        - Archive transfers (Beta)
+      operationId: cancelArchiveTransfer
+      security:
+        - TapisJWT: []
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringResponse'
+  /v3/files/transfers/fastTransfer:
     post:
       description: |
         (Beta)
 
         Request a "fast" or "archive" transfer.  Archive transfers will use "tar" to put files
-        on the sourrce system into an archive, and use tar to extract the archive on the destination 
+        on the source system into an archive, and use tar to extract the archive on the destination 
         system.  The result of the tar operation is sent directly over the network (there are no
         temporary files created or anything like that).  Depending on the archive type specified,
         this transfer could add compression, skip the un-archiving on the destination, or read
@@ -1090,24 +1110,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArchiveTransferResponse'
-    delete:
-      tags:
-        - Archive transfers (Beta)
-      description: |
-        Request to cancel an archive transfer (Beta)
-      operationId: cancelArchiveTransfer
-      security:
-        - TapisJWT: []
-      parameters:
-        - name: uuid
-          type: string
-      responses:
-        '200':
-          description: Success.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StringResponse'
+
   # --- Paths for /files/permissions ---------------------------------------------
   /v3/files/permissions/{systemId}/{path}:
     get:
